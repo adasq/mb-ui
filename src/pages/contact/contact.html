@@ -1,0 +1,17 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      {{this.item.trooper.name}}
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+
+<report-component 
+  (onSkillSelected)="onSkillSelected($event)"
+  [report]="item.report"
+></report-component>
+
+
+</ion-content>

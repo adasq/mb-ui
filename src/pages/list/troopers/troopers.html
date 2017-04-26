@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>{{list.name}} troppers: ({{list.troopers.length}} total)</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+<div *ngIf="list.troopers.length === 0">
+   Oops, it seem, that you have no troopers!
+  <div padding>
+    <button (click)="onCreateTrooperClick()" ion-button block >Create first trooper!</button>
+  </div>
+</div>
+
+<ion-list 
+[virtualScroll]="list.troopers" 
+[headerFn]="myHeaderFn">
+
+  <!--<ion-item-divider *virtualHeader="let header">
+    Header: {{ header }}
+  </ion-item-divider>-->
+
+  <ion-item (click)="onTrooperClick(trooper)" *virtualItem="let trooper">
+    {{ trooper.name }}
+  </ion-item>
+</ion-list>
+
+
+<div padding>
+  <button 
+  *ngIf="list.troopers.length  > 0"
+  (click)="onCreateTrooperClick()"
+  ion-button block 
+  >Create trooper!</button>
+</div>
+
+
+</ion-content>

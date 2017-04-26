@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>New</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+
+
+<ion-list>
+
+  <ion-item>
+    <ion-label>Username</ion-label>
+    <ion-input type="text" [(ngModel)]="list.name"></ion-input>
+  </ion-item>
+
+  <ion-item>
+      <ion-label>Gaming</ion-label>
+      <ion-select [(ngModel)]="list.domain" cancelText="Nah" okText="Okay!">
+      <ion-option value="es">Espaniol</ion-option>
+      <ion-option value="en">English</ion-option>
+      <ion-option value="net">Net</ion-option>
+    </ion-select>   
+  </ion-item>
+
+</ion-list>
+
+<div padding>
+  <button (click)="onCreateClick()" ion-button block >Create!</button>
+</div>
+
+</ion-content>

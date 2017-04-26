@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Description
+    </ion-title>
+    <ion-buttons start>
+      <button ion-button (click)="onDismissClick()">
+        <span ion-text color="primary" showWhen="ios">Cancel</span>
+        <ion-icon name="md-close" showWhen="android,windows">x</ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+<ion-list>
+
+    <ion-item>
+        <ion-label>name</ion-label>
+        <ion-input type="text" [(ngModel)]="trooper.name"></ion-input>
+    </ion-item>
+
+    <ion-item>
+        <ion-label>password</ion-label>
+        <ion-input type="text" [(ngModel)]="trooper.pass"></ion-input>
+    </ion-item>    
+</ion-list>
+  
+<div padding>
+  <button (click)="onAddClick()" ion-button block >Add trooper</button>
+</div>
+
+    
+
+</ion-content>
