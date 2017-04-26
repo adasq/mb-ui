@@ -9,29 +9,45 @@
 
 <ion-content padding>
 
-<!--<report-component 
-  (onSkillSelected)="onSkillSelected($event)"
-  [report]="report"
-></report-component>-->
+   
+    
+<ion-list [virtualScroll]="items">
+  
+  
 
-
-<ion-list 
-[virtualScroll]="items">
-  <ion-item *virtualItem="let item">
+  <ion-item (click)="onUpgradeClicked(item)"[class.upgrade-available]="item.state === STATE.UPGRADE_AVAILABLE" *virtualItem="let item">
     <ion-avatar item-left>
-      <img src="img/avatar-finn.png">
+      
+      <ion-icon name="person"></ion-icon>
     </ion-avatar>
     <h2>{{item.trooper.name}}</h2>
-    <h3>{{item.state}}</h3>
-    <p>I've had a pretty messed up day. If we just...</p>
-    <button (click)="onUpgradeClicked(item)" ion-button clear item-right>upgrade</button>
+    <!--<h3>{{item.state}}</h3>-->
+    <p *ngIf="item.state === STATE.UPGRADE_AVAILABLE">
+      Upgrades available
+    </p>
+    <p *ngIf="item.state === STATE.PLAYING">
+      Waiting for result...
+    </p>
+    <p *ngIf="item.state === STATE.DEFAULT"></p>
+    <button *ngIf="item.state === STATE.UPGRADE_AVAILABLE" ion-button clear item-right>
+      upgrade
+    </button>
   </ion-item>
 </ion-list>
 
-
-
-
-
-
-
 </ion-content>
+<ion-footer>
+  <ion-toolbar padding>
+    
+    <p>{{ ((statistics.finished / statistics.totalItems) * 100) }}%
+    </p>
+    <ion-buttons end>
+      <button 
+      *ngIf="getAvailableForUpgradeCount() > 0"
+      (click)="onUpgradesAvailableClick()" ion-button icon-right>
+        {{ getAvailableForUpgradeCount() }} upgrades available!
+        <ion-icon name="send"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>
