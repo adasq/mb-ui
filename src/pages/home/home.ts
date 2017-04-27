@@ -41,15 +41,6 @@ export class HomePage {
      const headers = new Headers({
       "Content-Type": "application/json"
      });
-     
-
-     function sendReq(){
-        http.post('http://localhost:8100/api/play', {"name": "aaa"}, {headers})
-        .map(res => res.json())
-        .subscribe(data => {
-            console.log('data',data);
-        });
-     }
 
     const items = [];
 
@@ -68,7 +59,7 @@ export class HomePage {
 
     items.forEach(item => {
       item.state = STATE.PLAYING;
-      http.post('http://localhost:8100/api/play', {name: item.trooper.name}, {headers})
+      http.post('https://minibotters.herokuapp.com/play', {name: item.trooper.name}, {headers})
         .map(res => res.json())
         .subscribe(report => {
             item.report = this.createReport(report);

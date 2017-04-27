@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { NavController, Events } from 'ionic-angular';
-import { EditPage } from './edit/edit';
+import { Events } from 'ionic-angular';
 import { Trooper } from '../../app/trooper/trooper.interface';
 
 import { List } from './list.interface';
