@@ -6,15 +6,9 @@
     <ion-title>Home</ion-title>
   </ion-navbar>
 </ion-header>
-
-<ion-content padding>
-
-   
+<ion-content>
     
 <ion-list [virtualScroll]="items">
-  
-  
-
   <ion-item (click)="onUpgradeClicked(item)"[class.upgrade-available]="item.state === STATE.UPGRADE_AVAILABLE" *virtualItem="let item">
     <ion-avatar item-left>
       
@@ -37,8 +31,7 @@
 
 </ion-content>
 <ion-footer>
-  <ion-toolbar padding>
-    
+  <ion-toolbar>
     <p>{{ ((statistics.finished / statistics.totalItems) * 100) }}%
     </p>
     <ion-buttons end>

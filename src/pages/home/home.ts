@@ -44,7 +44,7 @@ export class HomePage {
 
     const items = [];
 
-    for(let i =20; i< 40; ++i) {
+    for(let i =1; i< 140; ++i) {
       items.push({
         state: STATE.DEFAULT,
         trooper: { name: `ziemniaki${i}` }, 
@@ -54,12 +54,12 @@ export class HomePage {
 
     this.statistics.totalItems = items.length;
     this.statistics.finished = 0;
-
+    const API = 'http://localhost:8100/api' && 'https://minibotters.herokuapp.com';
     this.items = items;
 
     items.forEach(item => {
       item.state = STATE.PLAYING;
-      http.post('https://minibotters.herokuapp.com/play', {name: item.trooper.name}, {headers})
+      http.post(API + '/play', {name: item.trooper.name}, {headers})
         .map(res => res.json())
         .subscribe(report => {
             item.report = this.createReport(report);
@@ -81,14 +81,6 @@ export class HomePage {
     this.navCtrl.push(ContactPage, {items});
   }
 
-  public myHeaderFn(record, recordIndex, records) {
-    if(record.state === STATE.UPGRADE_AVAILABLE){
-        console.log('!!!');
-         return 'Available for upgrade ' + this.statistics.upgradable;
-    }
-    return null;
-  }
-
   private createReport(report: any): Report {
         return {
               availableSkills: report.upgrade ? [
@@ -96,7 +88,7 @@ export class HomePage {
                   return {
                     id: upgrade.skillId,
                     name: upgrade.name,
-                    icon: upgrade.style.replace('img', 'assets').substr(13),
+                    icon: upgrade.style.replace('/img', 'assets').substr(13),
                     description: upgrade.description
                   }
                 })
@@ -113,7 +105,4 @@ export class HomePage {
   public onUpgradeClicked (item: Item){
     this.navCtrl.push(ContactPage, {item});
   }
-
-
-
 }
