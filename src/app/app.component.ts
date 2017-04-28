@@ -7,16 +7,18 @@ import { ListPage } from '../pages/list/list';
 import { HomePage } from '../pages/home/home';
 import { AboutPage } from '../pages/about/about';
 import { ListNewPage } from '../pages/list/new/new';
+import { ListTroopersPage } from '../pages/list/troopers/troopers';
 
 import { ListsService } from './lists/lists.service';
-
 
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
-  rootPage:any = HomePage;
+
+  rootPage:any = ListTroopersPage;
+  
 
   pages: Array<{title: string, component: any, params?: any}>;
 
@@ -36,6 +38,7 @@ export class MyApp {
 
 
     this.setOptions();
+
     this.events.subscribe('lists:added', list => {
       console.log('new list added!');
         this.setOptions();

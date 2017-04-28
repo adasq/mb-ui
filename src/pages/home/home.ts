@@ -44,7 +44,7 @@ export class HomePage {
 
     const items = [];
 
-    for(let i =1; i< 140; ++i) {
+    for(let i =2; i< 6; ++i) {
       items.push({
         state: STATE.DEFAULT,
         trooper: { name: `ziemniaki${i}` }, 
@@ -54,7 +54,7 @@ export class HomePage {
 
     this.statistics.totalItems = items.length;
     this.statistics.finished = 0;
-    const API = 'http://localhost:8100/api' && 'https://minibotters.herokuapp.com';
+    const API = 'http://localhost:8100/api' || 'https://minibotters.herokuapp.com';
     this.items = items;
 
     items.forEach(item => {
@@ -66,6 +66,8 @@ export class HomePage {
 
             if (item.report.availableSkills) {
               item.state = STATE.UPGRADE_AVAILABLE;
+            } else {
+              item.state = STATE.UPGRADE_NOT_AVAILABLE;
             }
             this.statistics.finished++;
         });

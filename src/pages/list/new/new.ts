@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, ToastController, NavParams, Events } from 'ionic-angular';
+import { NavController, ToastController, NavParams } from 'ionic-angular';
  
 import { List } from '../../../app/lists/list.interface';
 import { ListsService } from '../../../app/lists/lists.service';
@@ -38,8 +38,7 @@ export class ListNewPage {
   private showSuccessfullyToast(list: List) {
     let toast = this.toastCtrl.create({
       message: `
-        Great!
-        Your list ${list.name} has been created. Fill it with some troopers!
+        Great! Your list ${list.name} has been created. Fill it with some troopers!
       `,
       duration: 3000
     });

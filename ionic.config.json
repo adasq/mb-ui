@@ -7,6 +7,10 @@
     {
       "path": "/api",
       "proxyUrl": "https://minibotters.herokuapp.com"
+    },
+    {
+      "path": "/list",
+      "proxyUrl": "https://gist.githubusercontent.com/anonymous/606a8a29abcc04017995484ab39bc47b/raw/422aa84746e4d448b1df629e51fce5507eddddae/gistfile1.txt"
     }
   ]
 }

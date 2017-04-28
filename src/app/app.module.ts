@@ -11,6 +11,7 @@ import { ListPage } from '../pages/list/list';
 import { ListTroopersPage } from '../pages/list/troopers/troopers';
 import { ListTroopersEditPage } from '../pages/list/troopers/edit/edit';
 import { ListTroopersAddPage } from '../pages/list/troopers/add/add';
+import { ListTroopersImportPage } from '../pages/list/troopers/import/import';
 
 import { ListSettingsPage } from '../pages/list/settings/settings';
 import { ListNewPage } from '../pages/list/new/new';
@@ -20,6 +21,10 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { ReportComponent } from './report/report.component'; 
 import { ListsService } from './lists/lists.service'; 
+
+import { TrooperEditComponent } from './trooper/edit/edit.component';
+
+import { Clipboard } from '@ionic-native/clipboard';
 
 @NgModule({
   declarations: [
@@ -31,9 +36,11 @@ import { ListsService } from './lists/lists.service';
     ListTroopersPage,
     ListTroopersEditPage,
     ListTroopersAddPage,
+    ListTroopersImportPage,
     ListSettingsPage,
     ListNewPage,
-    ReportComponent
+    ReportComponent,
+    TrooperEditComponent
   ],
   imports: [
     HttpModule,
@@ -48,6 +55,7 @@ import { ListsService } from './lists/lists.service';
     ListTroopersPage,
     ListTroopersEditPage,
     ListTroopersAddPage,
+    ListTroopersImportPage,
     ListSettingsPage,
     ListNewPage,
     HomePage,
@@ -57,6 +65,7 @@ import { ListsService } from './lists/lists.service';
     ListsService,
     StatusBar,
     SplashScreen,
+    Clipboard,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

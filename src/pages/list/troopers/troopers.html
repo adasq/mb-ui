@@ -7,13 +7,7 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-<div *ngIf="list.troopers.length === 0">
-   Oops, it seem, that you have no troopers!
-  <div padding>
-    <button (click)="onCreateTrooperClick()" ion-button block >Create first trooper!</button>
-  </div>
-</div>
+<ion-content>
 
 <ion-list 
 [virtualScroll]="list.troopers" 
@@ -28,14 +22,21 @@
   </ion-item>
 </ion-list>
 
-
-<div padding>
-  <button 
-  *ngIf="list.troopers.length  > 0"
-  (click)="onCreateTrooperClick()"
-  ion-button block 
-  >Create trooper!</button>
-</div>
-
+  <ion-grid>
+      <ion-row>
+    <ion-col col-6>
+      <button 
+      (click)="onCreateTrooperClick()"
+      ion-button block 
+      >Create trooper</button>
+  </ion-col>
+  <ion-col col-6>
+      <button 
+    (click)="onImportClick()"
+    ion-button block 
+    >Import</button>
+  </ion-col>
+  </ion-row>
+</ion-grid>
 
 </ion-content>
