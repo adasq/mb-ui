@@ -5,6 +5,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { ListPage } from '../pages/list/list';
 import { HomePage } from '../pages/home/home';
+import { PlayerPage } from '../pages/player/player';
 import { AboutPage } from '../pages/about/about';
 import { ListNewPage } from '../pages/list/new/new';
 import { ListTroopersPage } from '../pages/list/troopers/troopers';
@@ -17,7 +18,7 @@ import { ListsService } from './lists/lists.service';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage:any = ListTroopersPage;
+  rootPage:any = AboutPage || ListTroopersPage;
   
 
   pages: Array<{title: string, component: any, params?: any}>;
@@ -40,18 +41,15 @@ export class MyApp {
     this.setOptions();
 
     this.events.subscribe('lists:added', list => {
-      console.log('new list added!');
         this.setOptions();
     });
-
-
   }
 
   setOptions() {
     let lists = this.listsService.lists.map(list => {
       return { 
         title: list.name,
-        component: ListPage,
+        component: ListTroopersPage,
         params: {
           list
         }

@@ -15,21 +15,15 @@ export class ListsService {
 
     const troopers: Trooper[] = [];
 
-    for(var i = 0; i < 6; i++) {
+    for(var i = 3; i < 40; i++) {
       troopers.push({
-        name: `list1 trooper${i+1}`
+        name: `trooper${i+1}`
       } as Trooper);
     }
 
       this.lists = [
-          {
-            name: 'list1',
-            troopers
-          },
-          {
-            name: 'list2',
-            troopers: []
-          }
+          { name: 'list1', troopers },
+          { name: 'list2', troopers: []}
       ];
   }
 

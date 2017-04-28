@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 
-import { STATE } from '../home/home';
+import { STATE } from '../player/player';
 
 @Component({
   selector: 'page-contact',

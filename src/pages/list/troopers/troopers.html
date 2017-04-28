@@ -9,34 +9,40 @@
 
 <ion-content>
 
-<ion-list 
-[virtualScroll]="list.troopers" 
-[headerFn]="myHeaderFn">
+<div style="text-align: center;" *ngIf="items.length === 0">
 
-  <!--<ion-item-divider *virtualHeader="let header">
-    Header: {{ header }}
-  </ion-item-divider>-->
+  <h6 ion-text>List is empty</h6>
+<button (click)="onImportClick()" ion-button round outline>Import troopers</button>
+  <h6 ion-text>or</h6>
+<button (click)="onCreateTrooperClick()" ion-button round outline>Add new one</button>
 
-  <ion-item (click)="onTrooperClick(trooper)" *virtualItem="let trooper">
-    {{ trooper.name }}
+
+</div>
+
+<ion-list [approxItemHeight]="'107px'" [virtualScroll]="items">
+  <ion-item (click)="onTrooperClick(item)" *virtualItem="let item">
+    <h2>{{item.trooper.name}}</h2>
+    <p *ngIf="item.state === STATE.DEFAULT">
+      {{item.trooper.pass ? 'pass: '+item.trooper.pass : 'no password set'}}
+    </p>
+    <p *ngIf="item.state === STATE.VALIDATING">
+      Validating...
+    </p>
+    <p *ngIf="item.state === STATE.ERROR">
+      {{item.error}}
+    </p>
+    <p *ngIf="item.state === STATE.SUCCESS">
+      OK
+    </p>
   </ion-item>
 </ion-list>
-
-  <ion-grid>
-      <ion-row>
-    <ion-col col-6>
-      <button 
-      (click)="onCreateTrooperClick()"
-      ion-button block 
-      >Create trooper</button>
-  </ion-col>
-  <ion-col col-6>
-      <button 
-    (click)="onImportClick()"
-    ion-button block 
-    >Import</button>
-  </ion-col>
-  </ion-row>
-</ion-grid>
-
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <p></p>
+    <ion-buttons end>
+      <button (click)="onOptionsClick()" ion-button color="primary">More</button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

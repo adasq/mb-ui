@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
-import { Http } from '@angular/http';
+import { Component, ViewChild } from '@angular/core';
+import { Http, Headers } from '@angular/http';
 
-import { NavController, ActionSheetController, NavParams, ModalController } from 'ionic-angular';
+import { NavController, Content, ActionSheetController, NavParams, ModalController } from 'ionic-angular';
 import { Trooper } from '../../../app/trooper/trooper.interface';
 import { List } from '../../../app/lists/list.interface';
 
@@ -10,7 +10,22 @@ import { ListsService } from '../../../app/lists/lists.service';
 import { ListTroopersEditPage } from './edit/edit';
 import { ListTroopersAddPage } from './add/add';
 import { ListTroopersImportPage } from './import/import';
+import { ListSettingsPage } from '../settings/settings';
 
+const API = 'http://localhost:8100/api2' || 'https://minibotters.herokuapp.com';
+
+const STATE = {
+  DEFAULT: 0,
+  VALIDATING: 1,
+  SUCCESS: 2,
+  ERROR: 3
+};
+
+interface Item {
+  trooper: Trooper;
+  state: number;
+  error: string;
+}
 
 @Component({
   selector: 'page-list-troopers',
@@ -18,6 +33,10 @@ import { ListTroopersImportPage } from './import/import';
 })
 export class ListTroopersPage {
   public list: List = null;
+  public items: Item[] = [];
+  @ViewChild(Content) content: Content;
+  
+  public STATE = STATE;
   constructor(
     public navCtrl: NavController,
     public params: NavParams,
@@ -30,6 +49,14 @@ export class ListTroopersPage {
     if(!this.list) {
       this.list = listsService.lists[1];
     }
+
+    this.items = this.list.troopers.map(trooper => {
+      return {
+        trooper,
+        error: '',
+        state: STATE.DEFAULT
+      };
+    });
   }
 
   public onCreateTrooperClick() {
@@ -37,14 +64,49 @@ export class ListTroopersPage {
      addTrooperModal
      .onDidDismiss(trooper => {
        if (trooper) {
+         this.items.push({
+           trooper,
+           state: STATE.DEFAULT,
+           error: ''
+         });
          this.list.troopers.push(trooper as Trooper);
        }
     });
     addTrooperModal.present();
   }
 
-  public onTrooperClick(trooper) {
-    this.presentActionSheet(trooper);
+  public onTrooperClick(item) {
+    this.presentTrooperActionSheet(item);
+  }
+
+  public onCheckClick(item: Item, cb = () => {}) {
+     item.state = STATE.VALIDATING;
+     this.checkTrooper(item.trooper)
+        .subscribe(result => {
+          if(result.code === 201){
+            item.state = STATE.SUCCESS;
+          }else{
+            item.state = STATE.ERROR;
+            item.error = result.message;
+          }
+          cb();
+        }, (err) => {
+          item.state = STATE.ERROR;
+          item.error = 'Connection issue';
+          cb();
+        });
+  }
+
+  public onOptionsClick(){
+    this.presentListActionSheet();
+  }
+
+  private checkTrooper(trooper: Trooper) {
+     const headers = new Headers({
+      "Content-Type": "application/json"
+     });
+     return this.http.post(API + '/check', trooper, {headers})
+        .map(res => res.json());
   }
 
   public onImportClick() {
@@ -52,42 +114,82 @@ export class ListTroopersPage {
      importTroopersModal
      .onDidDismiss(troopers => {
        if (troopers) {
+         this.items = this.items.concat(troopers.map(trooper => {
+           return {
+            trooper,
+            state: STATE.DEFAULT,
+            error: ''
+          };
+         }));
          this.list.troopers = this.list.troopers.concat(troopers);
        }
     });
     importTroopersModal.present();
   }
 
-  private onEditTrooperClick(trooper: Trooper){
-    this.navCtrl.push(ListTroopersEditPage, { trooper });
+  public onSettingsClick() {
+    const list: List = this.list;
+    const addTrooperModal = this.modalCtrl.create(ListSettingsPage, {list});
+     addTrooperModal
+     .onDidDismiss(() => {
+       
+    });
+    addTrooperModal.present();    
   }
 
-  private onRemoveTrooperClick(trooper: Trooper){
-    const index = this.list.troopers.indexOf(trooper);
-    if(index === -1){
-      return;
+  public onCheckAllClick() {
+    this.items.map(item => item.state = STATE.DEFAULT);
+    let i = -1;
+    const length = this.items.length;
+    const checkNext = () => {
+      i = i + 1;
+      if(i == length) return;
+      this.onCheckClick(this.items[i], () => {
+          this.content.scrollTo(0, i * 67, 400);
+          checkNext();
+      });
+    };
+    checkNext();
+  }
+
+    private onEditTrooperClick(item: Item){
+      const trooper = item.trooper;
+      item.state = STATE.DEFAULT;
+      this.navCtrl.push(ListTroopersEditPage, { trooper });
     }
+
+  private onRemoveTrooperClick(item: Item){
+    const index = this.list.troopers.indexOf(item.trooper);
+    if (index === -1) { return; }
+    this.items.splice(index, 1);
     this.list.troopers.splice(index, 1);
   }
 
-  public presentActionSheet(trooper) {
+  private presentTrooperActionSheet(item: Item) {
     this.actionSheetController.create({
       title: 'What to do?',
       buttons: [
-        {
-          text: 'Edit',
-          handler: () => this.onEditTrooperClick(trooper)
-        },{
-          text: 'Remove',
-          role: 'destructive',
-          handler: () => this.onRemoveTrooperClick(trooper)
-        },{
-          text: 'Cancel',
-          role: 'cancel',
-          handler: () => {}
-        }
+        { text: 'Edit', handler: () => this.onEditTrooperClick(item) },
+        { text: 'Remove', role: 'destructive',
+          handler: () => this.onRemoveTrooperClick(item)
+        },
+        { text: 'Check', role: 'destructive',
+          handler: () => this.onCheckClick(item)
+        },
+        { text: 'Cancel', role: 'cancel', handler: () => {} }
       ]
     }).present();
+  }
+
+
+  private presentListActionSheet() {
+    this.actionSheetController.create({ buttons: [
+        { text: 'Check all', handler: () => this.onCheckAllClick() },
+        { text: 'Import', handler: () => this.onImportClick() },
+        { text: 'Add trooper', handler: () => this.onCreateTrooperClick() },
+        { text: 'Settings', role: 'destructive', handler: () => this.onSettingsClick() }, 
+        { text: 'Cancel', role: 'cancel', handler: () => {} }
+    ]}).present();
   }
 }
 

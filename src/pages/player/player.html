@@ -1,0 +1,43 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Playing {{list.name}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+<ion-list [virtualScroll]="items">
+  <ion-item (click)="onUpgradeClicked(item)"[class.upgrade-available]="item.state === STATE.UPGRADE_AVAILABLE" *virtualItem="let item">
+    <ion-avatar item-left>
+      
+      <ion-icon name="person"></ion-icon>
+    </ion-avatar>
+    <h2>{{item.trooper.name}}</h2>
+    <!--<h3>{{item.state}}</h3>-->
+    <p *ngIf="item.state === STATE.UPGRADE_AVAILABLE">
+      Upgrades available
+    </p>
+    <p *ngIf="item.state === STATE.PLAYING">
+      Waiting for result...
+    </p>
+    <p *ngIf="item.state === STATE.DEFAULT"></p>
+    <button *ngIf="item.state === STATE.UPGRADE_AVAILABLE" ion-button clear item-right>
+      upgrade
+    </button>
+  </ion-item>
+</ion-list>
+
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <p>{{ ((statistics.finished / statistics.totalItems) * 100) }}%
+    </p>
+    <ion-buttons end>
+      <button 
+      *ngIf="getAvailableForUpgradeCount() > 0"
+      (click)="onUpgradesAvailableClick()" ion-button icon-right>
+        {{ getAvailableForUpgradeCount() }} upgrades available!
+        <ion-icon name="send"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

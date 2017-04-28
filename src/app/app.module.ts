@@ -7,6 +7,8 @@ import { HttpModule } from '@angular/http';
 import { AboutPage } from '../pages/about/about';
 import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
+import { PlayerPage } from '../pages/player/player';
+
 import { ListPage } from '../pages/list/list';
 import { ListTroopersPage } from '../pages/list/troopers/troopers';
 import { ListTroopersEditPage } from '../pages/list/troopers/edit/edit';
@@ -32,6 +34,7 @@ import { Clipboard } from '@ionic-native/clipboard';
     AboutPage,
     ContactPage,
     HomePage,
+    PlayerPage,
     ListPage,
     ListTroopersPage,
     ListTroopersEditPage,
@@ -59,6 +62,7 @@ import { Clipboard } from '@ionic-native/clipboard';
     ListSettingsPage,
     ListNewPage,
     HomePage,
+    PlayerPage,
     ListPage
   ],
   providers: [

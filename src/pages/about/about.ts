@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { Component, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { NavController, Slides } from 'ionic-angular';
 
 
 @Component({
@@ -7,10 +7,12 @@ import { NavController } from 'ionic-angular';
   templateUrl: 'about.html'
 })
 export class AboutPage {
+
+  @ViewChild(Slides) slidesElem: Slides;
   constructor(
+    private cd: ChangeDetectorRef,
     public navCtrl: NavController
   ) {
-
   }
 
 }
