@@ -28,6 +28,14 @@ import { TrooperEditComponent } from './trooper/edit/edit.component';
 
 import { Clipboard } from '@ionic-native/clipboard';
 
+import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
+
+const cloudSettings: CloudSettings = {
+  'core': {
+    'app_id': 'f0adb118'
+  }
+};
+
 @NgModule({
   declarations: [
     MyApp,
@@ -48,6 +56,7 @@ import { Clipboard } from '@ionic-native/clipboard';
   imports: [
     HttpModule,
     BrowserModule,
+    CloudModule.forRoot(cloudSettings),
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],

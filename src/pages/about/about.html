@@ -3,27 +3,27 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>About</ion-title>
+    <ion-title>
+    </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
+  <ion-slides *ngIf="data != null" loop="true" direction="vertical"
+  (ionSlideDidChange)="ionSlideDidChange()"
+  (ionSlideNextStart)="ionSlideNextStart($event)"
+  (ionSlidePrevStart)="ionSlidePrevStart()"
+  >
+    <ion-slide padding class="tension-id-0">
+      {{ items[0] }}
+    </ion-slide>
 
-<ion-slides loop="true" paginationType="progress" pager>
-  
-  <ion-slide>
-    <h2>1</h2>
-  </ion-slide>
+    <ion-slide padding class="tension-id-1">
+      {{ items[1] }}
+    </ion-slide>
 
-  <ion-slide>
-    <h2>2</h2>
-  </ion-slide>
-
-  <ion-slide>
-    <h2>3</h2>
-  </ion-slide>    
-
-</ion-slides>
-
-
+    <ion-slide padding class="tension-id-2">
+      {{ items[2] }}
+    </ion-slide>        
+  </ion-slides>
 </ion-content>
