@@ -1,7 +1,6 @@
 import { Component, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { Http } from '@angular/http';
 import { NavController, Slides } from 'ionic-angular';
-
 import {Deploy} from '@ionic/cloud-angular';
 
 let itemId = -1;
