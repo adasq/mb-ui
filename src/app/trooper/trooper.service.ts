@@ -3,7 +3,7 @@ import { Http, Headers } from '@angular/http';
 
 import { Trooper } from '../../app/trooper/trooper.interface';
 
-const API = '/api2';
+const API = '/api';
 
 @Injectable()
 export class TrooperService {
