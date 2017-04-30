@@ -31,6 +31,8 @@ import { Clipboard } from '@ionic-native/clipboard';
 
 import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
 
+import { GLIonic2EnvConfigurationModule } from 'gl-ionic2-env-configuration';
+
 const cloudSettings: CloudSettings = {
   'core': {
     'app_id': 'f0adb118'
@@ -57,6 +59,7 @@ const cloudSettings: CloudSettings = {
   imports: [
     HttpModule,
     BrowserModule,
+    GLIonic2EnvConfigurationModule,
     CloudModule.forRoot(cloudSettings),
     IonicModule.forRoot(MyApp)
   ],

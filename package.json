@@ -8,8 +8,8 @@
     "clean": "ionic-app-scripts clean",
     "build": "ionic-app-scripts build",
     "ionic:build": "ionic-app-scripts build",
-    "ionic:serve": "ionic-app-scripts serve",
-    "publish": "ionic-app-scripts build --prod --wwwDir muib && cd muib && npm version patch && npm publish"
+    "ionic:serve": "node copy-env.js --env dev | ionic-app-scripts serve",
+    "publish": "node copy-env.js --env prod | ionic-app-scripts build --prod --wwwDir muib && cd muib && npm version patch && npm publish"
   },
   "dependencies": {
     "@angular/common": "4.0.0",
@@ -26,6 +26,7 @@
     "@ionic-native/status-bar": "3.4.2",
     "@ionic/cloud-angular": "^0.12.0",
     "@ionic/storage": "2.0.1",
+    "gl-ionic2-env-configuration": "0.0.18",
     "hapi": "16.1.1",
     "ionic-angular": "3.0.1",
     "ionicons": "3.0.0",
