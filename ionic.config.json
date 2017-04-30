@@ -6,11 +6,11 @@
   "proxies": [
     {
       "path": "/api",
-      "proxyUrl": "http://localhost:5000"
+      "proxyUrl": "http://localhost:5000/api"
     },
     {
       "path": "/api2",
-      "proxyUrl": "https://minibotters.herokuapp.com"
+      "proxyUrl": "https://minibotters.herokuapp.com/api"
     },
     {
       "path": "/list",

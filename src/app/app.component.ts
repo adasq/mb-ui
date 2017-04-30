@@ -1,5 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { Platform, Nav, Events  } from 'ionic-angular';
+import { Http } from '@angular/http';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -12,6 +13,7 @@ import { ListNewPage } from '../pages/list/new/new';
 import { ListTroopersPage } from '../pages/list/troopers/troopers';
 
 import { ListsService } from './lists/lists.service';
+import { EnvConfigurationProvider } from "gl-ionic2-env-configuration";
 
 @Component({
   templateUrl: 'app.html'
@@ -20,17 +22,24 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
   rootPage:any = HomePage;
-  
-
+  public version: any = null;
   pages: Array<{title: string, component: any, params?: any}>;
 
   constructor(
+    private http: Http,
     platform: Platform, 
     statusBar: StatusBar, 
     splashScreen: SplashScreen,
     private listsService: ListsService,
-    private events: Events
+    private events: Events,
+    private config: EnvConfigurationProvider<any>
   ) {
+    const { API_URL } = this.config.getConfig(); 
+    this.http.get(API_URL + '/version')
+      .map(res => res.json())
+      .subscribe((version) => {
+        this.version = version;
+      });
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
