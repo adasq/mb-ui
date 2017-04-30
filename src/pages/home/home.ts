@@ -1,11 +1,8 @@
 import { Component } from '@angular/core';
-import { Http, Headers } from '@angular/http'
 import { NavController } from 'ionic-angular';
 
 import { PlayerPage } from '../player/player';
 
-import { Report } from '../../app/report/report.interface';
-import { Trooper } from '../../app/trooper/trooper.interface';
 import { ListsService } from '../../app/lists/lists.service';
 import { List } from '../../app/lists/list.interface';
 
@@ -20,7 +17,6 @@ export class HomePage {
   public lists: List[] = [];
   constructor(
     public navCtrl: NavController,
-    http: Http,
     private listsService: ListsService
    ) {
      this.lists = this.listsService.lists;  
