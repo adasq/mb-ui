@@ -1,18 +1,16 @@
 import { Component, ViewChild } from '@angular/core';
-import { Http, Headers } from '@angular/http';
 
 import { NavController, Content, ActionSheetController, NavParams, ModalController } from 'ionic-angular';
 import { Trooper } from '../../../app/trooper/trooper.interface';
 import { List } from '../../../app/lists/list.interface';
 
 import { ListsService } from '../../../app/lists/lists.service'; 
+import { TrooperService } from '../../../app/trooper/trooper.service'; 
 
 import { ListTroopersEditPage } from './edit/edit';
 import { ListTroopersAddPage } from './add/add';
 import { ListTroopersImportPage } from './import/import';
 import { ListSettingsPage } from '../settings/settings';
-
-const API = 'http://localhost:8100/api2' || 'https://minibotters.herokuapp.com';
 
 const STATE = {
   DEFAULT: 0,
@@ -41,13 +39,13 @@ export class ListTroopersPage {
     public navCtrl: NavController,
     public params: NavParams,
     public listsService: ListsService,
+    public trooperService: TrooperService,
     private modalCtrl: ModalController,
-    private http: Http,
     private actionSheetController: ActionSheetController
   ) {
     this.list = this.params.get('list') as List;
     if(!this.list) {
-      this.list = listsService.lists[1];
+      this.list = listsService.lists[0];
     }
 
     this.items = this.list.troopers.map(trooper => {
@@ -87,7 +85,11 @@ export class ListTroopersPage {
             item.state = STATE.SUCCESS;
           }else{
             item.state = STATE.ERROR;
-            item.error = result.message;
+            if(result.payload){
+                item.error = `${result.message} (shouldn't it be: '${result.payload}'?)`;
+            }else{
+                item.error = result.message;
+            }
           }
           cb();
         }, (err) => {
@@ -102,11 +104,7 @@ export class ListTroopersPage {
   }
 
   private checkTrooper(trooper: Trooper) {
-     const headers = new Headers({
-      "Content-Type": "application/json"
-     });
-     return this.http.post(API + '/check', trooper, {headers})
-        .map(res => res.json());
+     return this.trooperService.check(trooper);
   }
 
   public onImportClick() {

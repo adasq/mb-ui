@@ -15,7 +15,7 @@ export class ListsService {
 
     const troopers: Trooper[] = [];
 
-    for(var i = 3; i < 40; i++) {
+    for(var i = 3; i < 10; i++) {
       troopers.push({
         name: `trooper${i+1}`
       } as Trooper);

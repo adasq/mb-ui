@@ -5,6 +5,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { ListPage } from '../pages/list/list';
 import { HomePage } from '../pages/home/home';
+import { ContactPage } from '../pages/contact/contact';
 import { PlayerPage } from '../pages/player/player';
 import { AboutPage } from '../pages/about/about';
 import { ListNewPage } from '../pages/list/new/new';
@@ -18,7 +19,7 @@ import { ListsService } from './lists/lists.service';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage:any = AboutPage || ListTroopersPage;
+  rootPage:any = HomePage;
   
 
   pages: Array<{title: string, component: any, params?: any}>;

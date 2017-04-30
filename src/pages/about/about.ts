@@ -50,7 +50,7 @@ export class AboutPage {
   }
 
   fetch() {
-    const API = 'http://localhost:8100/tension' || 'http://mini2-botters.rhcloud.com';
+    const API = '/tension' || 'http://mini2-botters.rhcloud.com';
         this.http.get(API + '/test')
           .map(res => res.json())
           .subscribe(response => {
@@ -61,7 +61,8 @@ export class AboutPage {
   getNextDataId(){
     return (dataId + 1) === this.data.length ? 0 : dataId + 1;
   }
-    getPrevDataId(){
+  
+  getPrevDataId(){
     return  (dataId - 1) === -1 ? this.data.length -1 : dataId - 1;
   }
 }

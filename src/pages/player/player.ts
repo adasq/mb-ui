@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
-import { Http, Headers } from '@angular/http'
 import { NavController, NavParams } from 'ionic-angular';
 
 
 import { Report } from '../../app/report/report.interface';
 import { Trooper } from '../../app/trooper/trooper.interface';
+import { TrooperService } from '../../app/trooper/trooper.service';
 import { ContactPage } from '../contact/contact';
-import { ListPage } from '../list/list';
 import { List } from '../../app/lists/list.interface';
 
 import 'rxjs/add/operator/map';
@@ -16,11 +15,13 @@ export const STATE = {
   PLAYING: 1,
   UPGRADE_AVAILABLE: 2,
   UPGRADE_NOT_AVAILABLE: 3,
-  SKILL_SELECTING: 4
+  SKILL_SELECTING: 4,
+  ERROR: 5
 };
 
 interface Item {
   state: number;
+  error: string;
   report: Report;
   trooper: Trooper;
 }
@@ -31,53 +32,43 @@ interface Item {
 })
 export class PlayerPage {
   
-  public listPage= ListPage;
   public list: List = null;
   public STATE = STATE;
   public items: Item[] = null;
   public statistics: any = {};
   constructor(
     public navCtrl: NavController,
-    private params: NavParams,
-    http: Http
+    private trooperService: TrooperService,
+    private params: NavParams
    ) {
-     const headers = new Headers({
-      "Content-Type": "application/json"
-     });
-
     this.list = this.params.get('list');
     
     this.items = this.list.troopers.map(trooper => {
       return {
         report: null,
+        error: null,
         trooper,
         state: STATE.DEFAULT
       } as Item;
-    })
-    
-    // for(let i = 2; i< 6; ++i) {
-    //   items.push({
-    //     state: STATE.DEFAULT,
-    //     trooper: { name: `ziemniaki${i}` }, 
-    //     report: null
-    //   });
-    // }
+    });
 
     this.statistics.totalItems = this.items.length;
     this.statistics.finished = 0;
-    const API = 'http://localhost:8100/api' || 'https://minibotters.herokuapp.com';
 
     this.items.forEach(item => {
       item.state = STATE.PLAYING;
-      http.post(API + '/play', {name: item.trooper.name}, {headers})
-        .map(res => res.json())
+      this.trooperService.play(item.trooper)
         .subscribe(report => {
-            item.report = this.createReport(report);
-
-            if (item.report.availableSkills) {
-              item.state = STATE.UPGRADE_AVAILABLE;
+            if(report.code){
+              item.state = STATE.ERROR;
+              item.error = report.message;
             } else {
-              item.state = STATE.UPGRADE_NOT_AVAILABLE;
+              item.report = this.createReport(report);
+              if (item.report.availableSkills) {
+                item.state = STATE.UPGRADE_AVAILABLE;
+              } else {
+                item.state = STATE.UPGRADE_NOT_AVAILABLE;
+              }
             }
             this.statistics.finished++;
         });

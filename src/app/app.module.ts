@@ -23,6 +23,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { ReportComponent } from './report/report.component'; 
 import { ListsService } from './lists/lists.service'; 
+import { TrooperService } from './trooper/trooper.service'; 
 
 import { TrooperEditComponent } from './trooper/edit/edit.component';
 
@@ -75,6 +76,7 @@ const cloudSettings: CloudSettings = {
     ListPage
   ],
   providers: [
+    TrooperService,
     ListsService,
     StatusBar,
     SplashScreen,

@@ -12,12 +12,14 @@
       <ion-icon name="person"></ion-icon>
     </ion-avatar>
     <h2>{{item.trooper.name}}</h2>
-    <!--<h3>{{item.state}}</h3>-->
     <p *ngIf="item.state === STATE.UPGRADE_AVAILABLE">
       Upgrades available
     </p>
     <p *ngIf="item.state === STATE.PLAYING">
       Waiting for result...
+    </p>
+    <p *ngIf="item.state === STATE.ERROR">
+      {{item.error}}
     </p>
     <p *ngIf="item.state === STATE.DEFAULT"></p>
     <button *ngIf="item.state === STATE.UPGRADE_AVAILABLE" ion-button clear item-right>
