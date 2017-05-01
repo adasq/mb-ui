@@ -20,7 +20,7 @@ import { EnvConfigurationProvider } from "gl-ionic2-env-configuration";
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage:any = ListTroopersPage;
+  rootPage:any = HomePage || ListTroopersPage;
   public version: any = null;
   pages: Array<{title: string, component: any, params?: any}>;
 
@@ -58,7 +58,6 @@ export class MyApp {
     let lists = this.listsService.lists.map(list => {
       return { 
         title: list.name,
-        icon: 'list',
         component: ListTroopersPage,
         params: {
           list
@@ -66,20 +65,18 @@ export class MyApp {
       };
     });
 
-    this.pages = [
-      { title: 'Home', component: HomePage },
-      ...lists,
-      { title: 'About', component: AboutPage }
-    ];
+    this.pages = lists;
   }
 
   onCreateNewListClick(){
     this.nav.setRoot(ListNewPage, {});
   }
 
-  openPage(page) {
-    // Reset the content nav to have just this page
-    // we wouldn't want the back button to show in this scenario
+  onHomeClick() {
+    this.nav.setRoot(HomePage, {});
+  }
+
+  openListPage(page) {
     this.nav.setRoot(page.component, page.params);
   }
 }

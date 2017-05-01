@@ -1,11 +1,28 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title> {{ list.name }}</ion-title>
-  </ion-navbar>
+  <ion-toolbar>
+    <ion-title>
+      {{list.name}} settings
+    </ion-title>
+    <ion-buttons start>
+      <button ion-button (click)="onDismissClick()">
+        <span ion-text color="primary" showWhen="ios">Cancel</span>
+        <ion-icon name="md-close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
+  <list-edit-component
+    [buttonText]="'Update'"
+    [list]="tempList"
+    (onStateChanged)="onStateChanged($event)"
+  ></list-edit-component>
 
-Settings2
+    <button
+      (click)="onRemoveClick()" ion-button block color="danger">
+        Remove this list
+    </button>
+
 
 </ion-content>

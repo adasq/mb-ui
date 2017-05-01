@@ -1,0 +1,19 @@
+<ion-list>
+    <ion-item>
+        <ion-label floating>List Name</ion-label>
+        <ion-input type="text" [(ngModel)]="list.name" clearInput></ion-input>
+    </ion-item>
+  <ion-item>
+      <ion-label>Domain</ion-label>
+      <ion-select [(ngModel)]="list.domain" cancelText="Cancel" okText="OK">
+        <ion-option value="com">.com</ion-option>
+        <ion-option value="fr">.fr</ion-option>
+        <ion-option value="es">.es</ion-option>
+    </ion-select>   
+  </ion-item>
+</ion-list>
+    <button
+      [disabled]="list.name.length === 0 && list.domain" 
+      (click)="onSaveClick()" ion-button block>
+        {{ buttonText }}
+    </button>

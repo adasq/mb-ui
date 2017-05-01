@@ -11,14 +11,13 @@
 <ion-content>
 
 <div class="center" *ngIf="items.length === 0">
-
   <h6 ion-text>List is empty</h6>
 <button (click)="onImportClick()" ion-button round outline>Import troopers</button>
   <h6 ion-text>or</h6>
 <button (click)="onCreateTrooperClick()" ion-button round outline>Add new one</button>
 </div>
 
-<ion-list [approxItemHeight]="'107px'" [virtualScroll]="items">
+<ion-list [virtualScroll]="items">
   <ion-item (click)="onTrooperClick(item)" *virtualItem="let item">
     <h2>{{item.trooper.name}}</h2>
     <p *ngIf="item.state === STATE.DEFAULT">

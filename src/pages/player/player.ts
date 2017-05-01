@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { Component, ChangeDetectorRef, ViewChild } from '@angular/core';
+import { NavController, NavParams, Content } from 'ionic-angular';
 
 
 import { Report } from '../../app/report/report.interface';
@@ -16,7 +16,8 @@ export const STATE = {
   UPGRADE_AVAILABLE: 2,
   UPGRADE_NOT_AVAILABLE: 3,
   SKILL_SELECTING: 4,
-  ERROR: 5
+  SKILL_SELECTED: 5,
+  ERROR: 6
 };
 
 interface Item {
@@ -35,14 +36,16 @@ export class PlayerPage {
   public list: List = null;
   public STATE = STATE;
   public items: Item[] = null;
+  @ViewChild(Content) content: Content;
   public statistics: any = {};
   constructor(
     public navCtrl: NavController,
+    private changeDetectorRef: ChangeDetectorRef,
     private trooperService: TrooperService,
     private params: NavParams
    ) {
     this.list = this.params.get('list');
-    
+
     this.items = this.list.troopers.map(trooper => {
       return {
         report: null,
@@ -55,9 +58,9 @@ export class PlayerPage {
     this.statistics.totalItems = this.items.length;
     this.statistics.finished = 0;
 
-    this.items.forEach(item => {
+    let action = (item: Item, cb) => {
       item.state = STATE.PLAYING;
-      this.trooperService.play(item.trooper)
+      this.trooperService.play(item.trooper, this.list.domain)
         .subscribe(report => {
             if(report.code){
               item.state = STATE.ERROR;
@@ -70,9 +73,21 @@ export class PlayerPage {
                 item.state = STATE.UPGRADE_NOT_AVAILABLE;
               }
             }
+            // this.scrollToItem(item);
+            cb();
             this.statistics.finished++;
-        });
-    });
+            //this.changeDetectorRef.detectChanges();
+      });
+    }
+    this.trooperService.runStepByStep(this.items, action);
+  }
+
+  private scrollToItem(item: Item){
+    console.log(this.content.scrollTo)
+    if(!this.content){
+      return console.log(`${item.trooper.name} elem does not exists`);
+    }
+    this.content.scrollTo(0, (this.items.indexOf(item) + 0) * 67, 400);
   }
 
   public getAvailableForUpgradeCount() {
@@ -103,6 +118,13 @@ export class PlayerPage {
               totalMoney: report.skills.money,
               requiredMoney: report.skills.needToUpgrade
             };
+  }
+
+  public toPercentage (value) {
+    if(this.statistics.finished === this.statistics.totalItems){
+      return 'Done!';
+    }
+    return Math.floor(this.statistics.finished / this.statistics.totalItems * 100)+'%';
   }
 
   public onUpgradeClicked (item: Item){

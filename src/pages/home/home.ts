@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
 import { PlayerPage } from '../player/player';
+import { ListTroopersPage } from '../list/troopers/troopers';
 
 import { ListsService } from '../../app/lists/lists.service';
 import { List } from '../../app/lists/list.interface';
@@ -23,7 +24,10 @@ export class HomePage {
   }
 
   public onListClick(list: List) {
-    if(list.troopers.length === 0) return;
-    this.navCtrl.push(PlayerPage, {list});
+    if(list.troopers.length === 0) {
+      this.navCtrl.setRoot(ListTroopersPage, { list });
+    }else {
+      this.navCtrl.push(PlayerPage, {list});
+    }
   }
 }

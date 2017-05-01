@@ -9,8 +9,11 @@ import { TrooperService } from '../../../app/trooper/trooper.service';
 
 import { ListTroopersEditPage } from './edit/edit';
 import { ListTroopersAddPage } from './add/add';
+import { HomePage } from '../../home/home';
 import { ListTroopersImportPage } from './import/import';
 import { ListSettingsPage } from '../settings/settings';
+
+
 
 const STATE = {
   DEFAULT: 0,
@@ -61,18 +64,12 @@ export class ListTroopersPage {
 
   private onEditTrooperClick(item: Item) {
     const trooper = item.trooper;
-    // item.state = STATE.DEFAULT;
-    // this.navCtrl.push(ListTroopersEditPage, { trooper });
-    const addTrooperModal = this.modalCtrl.create(ListTroopersEditPage, {trooper});
-     addTrooperModal
-     .onDidDismiss(trooper => {
-
-    });
+    const addTrooperModal = this.modalCtrl.create(ListTroopersEditPage, {trooper, domain: this.list.domain });
     addTrooperModal.present();
   }
 
   public onCreateTrooperClick() {
-    const addTrooperModal = this.modalCtrl.create(ListTroopersAddPage, {});
+    const addTrooperModal = this.modalCtrl.create(ListTroopersAddPage, { domain: this.list.domain });
      addTrooperModal
      .onDidDismiss(trooper => {
        if (trooper) {
@@ -114,11 +111,11 @@ export class ListTroopersPage {
   }
 
   public onOptionsClick(){
-    this.presentListActionSheet();
+    this.presentMoreActionSheet();
   }
 
   private checkTrooper(trooper: Trooper) {
-     return this.trooperService.check(trooper);
+     return this.trooperService.check(trooper, this.list.domain);
   }
 
   public onImportClick() {
@@ -143,8 +140,10 @@ export class ListTroopersPage {
     const list: List = this.list;
     const addTrooperModal = this.modalCtrl.create(ListSettingsPage, {list});
      addTrooperModal
-     .onDidDismiss(() => {
-       
+     .onDidDismiss((isListRemoved) => {
+       if(isListRemoved){
+           this.navCtrl.setRoot(HomePage);
+       }
     });
     addTrooperModal.present();    
   }
@@ -185,7 +184,7 @@ export class ListTroopersPage {
     }).present();
   }
 
-  private presentListActionSheet() {
+  private presentMoreActionSheet() {
     const buttons = [
         { text: 'Import', handler: () => this.onImportClick() },
         { text: 'Add trooper', handler: () => this.onCreateTrooperClick() },

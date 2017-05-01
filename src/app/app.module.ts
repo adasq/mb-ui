@@ -25,6 +25,8 @@ import { ListsService } from './lists/lists.service';
 import { TrooperService } from './trooper/trooper.service'; 
 
 import { TrooperEditComponent } from './trooper/edit/edit.component';
+import { ListEditComponent } from './lists/edit/edit.component';
+
 
 import { Clipboard } from '@ionic-native/clipboard';
 
@@ -52,7 +54,8 @@ const cloudSettings: CloudSettings = {
     ListSettingsPage,
     ListNewPage,
     ReportComponent,
-    TrooperEditComponent
+    TrooperEditComponent,
+    ListEditComponent
   ],
   imports: [
     HttpModule,

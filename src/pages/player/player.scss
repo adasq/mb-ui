@@ -1,6 +1,35 @@
+@mixin showHideBahavior($state) {
+    .state-#{$state} {
+        display: none;
+    }
+    .item-#{$state} {
+        .state-#{$state} {
+            display: block;
+        }
+    }
+}
+
+$alpha: 0.05;
+
 page-player {
-    .upgrade-available {
-        background-color: #cff3e7;
+
+    @include showHideBahavior('upgrade-available');
+    @include showHideBahavior('playing');
+    @include showHideBahavior('error');
+
+    .upgrade-button {
+        display: none;
+    }
+
+    .item-upgrade-available {
+       .upgrade-button {
+            display: block;
+        }
+        background-color: rgba(0, 255, 0, $alpha);
+    }
+    
+    .item-error {
+        background-color: rgba(255, 0, 0, $alpha);
     }
 
     ion-icon {

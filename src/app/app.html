@@ -7,8 +7,11 @@
 
   <ion-content>
     <ion-list>
-      <button icon-left menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
-        <ion-icon name="{{p.icon}}"></ion-icon>
+        <button menuClose ion-item (click)="onHomeClick()">
+        Go bots!
+      </button>
+      <button icon-left menuClose ion-item *ngFor="let p of pages" (click)="openListPage(p)">
+        <ion-icon name="list"></ion-icon>
         {{p.title}}
       </button>
       <button menuClose ion-item (click)="onCreateNewListClick()">

@@ -12,8 +12,8 @@ import { ListTroopersPage } from '../troopers/troopers'
 export class ListNewPage {
 
     public list: List = {
-        name: 'MyNewListName',
-        domain: 'en',
+        name: 'My new list',
+        domain: 'com',
         troopers: []
     };
 
@@ -23,8 +23,8 @@ export class ListNewPage {
     private toastCtrl: ToastController,
     public params: NavParams,
   ) {}
-
-  public onCreateClick() {
+  
+  public onStateChanged(state) {
       const list = {
           name: this.list.name,
           domain: this.list.domain,

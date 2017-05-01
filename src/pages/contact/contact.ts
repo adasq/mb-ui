@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
+import { TrooperService } from '../../app/trooper/trooper.service'
 
 import { STATE } from '../player/player';
 
@@ -14,11 +15,12 @@ export class ContactPage {
 
   constructor(
     private navCtrl: NavController,
+    private changeDetectorRef: ChangeDetectorRef,
+    private trooperService: TrooperService,
     private params: NavParams
   ) {
     this.item = this.params.get('item');
     this.items = this.params.get('items');
-
 
     if(this.items) {
       this.selectNextReport();
@@ -29,7 +31,11 @@ export class ContactPage {
     const items = this.getAvailableForUpgrade();
 
     if(items[0]) {
+      const isFirstTime = !(!!this.item);
       this.item = items[0];
+      if(!isFirstTime){
+        this.changeDetectorRef.detectChanges();
+      }
     }else{
       this.navigatePreviousState();
     }
@@ -45,9 +51,12 @@ export class ContactPage {
 
   public onSkillSelected(skillId: number) {
     this.item.state = STATE.SKILL_SELECTING;
-    if(this.items){
+    // setTimeout(() => {
+    //    this.item.state = STATE.SKILL_SELECTED;
+    // });
+    if (this.items) {
       this.selectNextReport();
-    }else {
+    } else {
       this.navigatePreviousState();
     }
   }

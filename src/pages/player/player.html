@@ -3,26 +3,30 @@
     <ion-title>Playing {{list.name}}</ion-title>
   </ion-navbar>
 </ion-header>
-
 <ion-content>
 <ion-list [virtualScroll]="items">
-  <ion-item (click)="onUpgradeClicked(item)"[class.upgrade-available]="item.state === STATE.UPGRADE_AVAILABLE" *virtualItem="let item">
+  <ion-item (click)="onUpgradeClicked(item)" [ngClass]="{
+    'item-upgrade-available': item.state === STATE.UPGRADE_AVAILABLE,
+    'item-playing': item.state === STATE.PLAYING,
+    'item-error': item.state === STATE.ERROR
+  }"
+  *virtualItem="let item">
     <ion-avatar item-left>
-      
       <ion-icon name="person"></ion-icon>
     </ion-avatar>
     <h2>{{item.trooper.name}}</h2>
-    <p *ngIf="item.state === STATE.UPGRADE_AVAILABLE">
+    <p class="state-upgrade-available">
       Upgrades available
     </p>
-    <p *ngIf="item.state === STATE.PLAYING">
+    <p class="state-playing">
       Waiting for result...
     </p>
-    <p *ngIf="item.state === STATE.ERROR">
+    <p class="state-error">
       {{item.error}}
     </p>
-    <p *ngIf="item.state === STATE.DEFAULT"></p>
-    <button *ngIf="item.state === STATE.UPGRADE_AVAILABLE" ion-button clear item-right>
+    <p *ngIf="item.state === STATE.DEFAULT">
+    </p>
+    <button class="upgrade-button" ion-button clear item-right>
       upgrade
     </button>
   </ion-item>
@@ -31,7 +35,7 @@
 </ion-content>
 <ion-footer>
   <ion-toolbar>
-    <p>{{ ((statistics.finished / statistics.totalItems) * 100) }}%
+    <p>{{ toPercentage() }}
     </p>
     <ion-buttons end>
       <button 

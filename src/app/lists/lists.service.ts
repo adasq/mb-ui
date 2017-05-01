@@ -22,8 +22,8 @@ export class ListsService {
     }
 
       this.lists = [
-          { name: 'list1', troopers },
-          { name: 'list2', troopers: []}
+          { name: 'list1', domain: 'com', troopers },
+          { name: 'list2', domain: 'com', troopers: []}
       ];
   }
 

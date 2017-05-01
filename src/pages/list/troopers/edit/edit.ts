@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams, ViewController } from 'ionic-angular';
  
 import { Trooper } from '../../../../app/trooper/trooper.interface';
+import { Domain } from '../../../../app/lists/list.interface';
 import { STATE } from '../../../../app/trooper/edit/edit.component';
 
 @Component({
@@ -10,6 +11,7 @@ import { STATE } from '../../../../app/trooper/edit/edit.component';
 })
 export class ListTroopersEditPage {
   public trooper: Trooper;
+  public domain: Domain;
   public tempTrooper: Trooper;
 
   constructor(
@@ -18,6 +20,7 @@ export class ListTroopersEditPage {
     public params: NavParams
   ) {
       this.trooper = this.params.get('trooper');
+      this.domain = this.params.get('domain');
       const {name, pass} = this.trooper;
       this.tempTrooper = {name, pass} as Trooper;
   }
