@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, ViewController } from 'ionic-angular';
  
 import { Trooper } from '../../../../app/trooper/trooper.interface';
+import { STATE } from '../../../../app/trooper/edit/edit.component';
 
 @Component({
   selector: 'page-list-troopers-edit',
@@ -13,6 +14,7 @@ export class ListTroopersEditPage {
 
   constructor(
     public navCtrl: NavController,
+    public viewCtrl: ViewController,
     public params: NavParams
   ) {
       this.trooper = this.params.get('trooper');
@@ -20,9 +22,14 @@ export class ListTroopersEditPage {
       this.tempTrooper = {name, pass} as Trooper;
   }
 
-  public onUpdateClick() {
+  public onStateChanged(state) {
+    if(state === STATE.SUCCESS) {
+        this.closeEditPage();
+    }
+  }
+  private closeEditPage() {
     this.trooper.name = this.tempTrooper.name;
     this.trooper.pass = this.tempTrooper.pass;
-    this.navCtrl.pop();
+    this.viewCtrl.dismiss();
   }
 }

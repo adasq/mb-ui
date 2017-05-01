@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ViewController } from 'ionic-angular';
+import { NavController, NavParams, ViewController, ToastController } from 'ionic-angular';
  
 import { Trooper } from '../../../../app/trooper/trooper.interface';
+import { TrooperService } from '../../../../app/trooper/trooper.service';
+import { STATE } from '../../../../app/trooper/edit/edit.component';
 
 @Component({
   selector: 'page-list-troopers-add',
@@ -19,14 +21,20 @@ export class ListTroopersAddPage {
     public viewCtrl: ViewController
   ) { }
 
+  public onStateChanged(state){
+    if(state === STATE.SUCCESS) {
+        this.closePopup();
+    }
+  }
+
   public onDismissClick() {
     this.viewCtrl.dismiss();
   }
 
-  public onAddClick() {
-    this.viewCtrl.dismiss({
-        name: this.trooper.name,
-        pass: this.trooper.pass
-    } as Trooper);
+  private closePopup() {
+      this.viewCtrl.dismiss({
+          name: this.trooper.name,
+          pass: this.trooper.pass
+      } as Trooper);
   }
 }

@@ -4,7 +4,6 @@ import { Http } from '@angular/http';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
-import { ListPage } from '../pages/list/list';
 import { HomePage } from '../pages/home/home';
 import { ContactPage } from '../pages/contact/contact';
 import { PlayerPage } from '../pages/player/player';
@@ -21,7 +20,7 @@ import { EnvConfigurationProvider } from "gl-ionic2-env-configuration";
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage:any = HomePage;
+  rootPage:any = ListTroopersPage;
   public version: any = null;
   pages: Array<{title: string, component: any, params?: any}>;
 
@@ -59,6 +58,7 @@ export class MyApp {
     let lists = this.listsService.lists.map(list => {
       return { 
         title: list.name,
+        icon: 'list',
         component: ListTroopersPage,
         params: {
           list
@@ -67,9 +67,9 @@ export class MyApp {
     });
 
     this.pages = [
-      { title: 'HomePage', component: HomePage },
+      { title: 'Home', component: HomePage },
       ...lists,
-      { title: 'AboutPage', component: AboutPage }
+      { title: 'About', component: AboutPage }
     ];
   }
 

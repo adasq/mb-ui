@@ -9,7 +9,6 @@ import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
 import { PlayerPage } from '../pages/player/player';
 
-import { ListPage } from '../pages/list/list';
 import { ListTroopersPage } from '../pages/list/troopers/troopers';
 import { ListTroopersEditPage } from '../pages/list/troopers/edit/edit';
 import { ListTroopersAddPage } from '../pages/list/troopers/add/add';
@@ -46,7 +45,6 @@ const cloudSettings: CloudSettings = {
     ContactPage,
     HomePage,
     PlayerPage,
-    ListPage,
     ListTroopersPage,
     ListTroopersEditPage,
     ListTroopersAddPage,
@@ -75,8 +73,7 @@ const cloudSettings: CloudSettings = {
     ListSettingsPage,
     ListNewPage,
     HomePage,
-    PlayerPage,
-    ListPage
+    PlayerPage
   ],
   providers: [
     TrooperService,

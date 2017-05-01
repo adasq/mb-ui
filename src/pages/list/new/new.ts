@@ -3,8 +3,8 @@ import { NavController, ToastController, NavParams } from 'ionic-angular';
  
 import { List } from '../../../app/lists/list.interface';
 import { ListsService } from '../../../app/lists/lists.service';
+import { ListTroopersPage } from '../troopers/troopers'
 
-import { ListPage } from '../list';
 @Component({
   selector: 'page-list-new',
   templateUrl: 'new.html'
@@ -31,7 +31,7 @@ export class ListNewPage {
           troopers: []
       };
       this.listsService.create(list);
-      this.navCtrl.setRoot(ListPage, { list });
+      this.navCtrl.setRoot(ListTroopersPage, { list });
       this.showSuccessfullyToast(list);
   }
 

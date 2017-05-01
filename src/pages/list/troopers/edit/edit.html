@@ -1,17 +1,21 @@
 <ion-header>
-  <ion-navbar>
+  <ion-toolbar>
     <ion-title>
       Editing {{trooper.name}}
     </ion-title>
-  </ion-navbar>
+    <ion-buttons start>
+      <button ion-button (click)="onDismissClick()">
+        <span ion-text color="primary" showWhen="ios">Cancel</span>
+        <ion-icon name="md-close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
 </ion-header>
 
-<ion-content>
-
-<trooper-edit-component [trooper]="tempTrooper"></trooper-edit-component>
-
-<div>
-  <button (click)="onUpdateClick()" ion-button block >Update trooper</button>
-</div>
-
+<ion-content padding>
+  <trooper-edit-component 
+      [buttonText]="'Update trooper'"
+      [trooper]="tempTrooper"
+      (onStateChanged)="onStateChanged($event)"
+  ></trooper-edit-component>
 </ion-content>

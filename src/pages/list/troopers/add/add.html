@@ -1,23 +1,21 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>
-      Description
+      Add new trooper
     </ion-title>
     <ion-buttons start>
       <button ion-button (click)="onDismissClick()">
         <span ion-text color="primary" showWhen="ios">Cancel</span>
-        <ion-icon name="md-close" showWhen="android,windows">x</ion-icon>
+        <ion-icon name="md-close"></ion-icon>
       </button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-
-<trooper-edit-component [trooper]="trooper"></trooper-edit-component>
-
-<div>
-  <button (click)="onAddClick()" ion-button block >Add trooper</button>
-</div>
-
+<ion-content padding>
+  <trooper-edit-component 
+    [buttonText]="'Add trooper'"
+    [trooper]="trooper"
+    (onStateChanged)="onStateChanged($event)"
+  ></trooper-edit-component>
 </ion-content>

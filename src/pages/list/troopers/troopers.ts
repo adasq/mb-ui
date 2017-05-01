@@ -19,6 +19,8 @@ const STATE = {
   ERROR: 3
 };
 
+const noop = () => {};
+
 interface Item {
   trooper: Trooper;
   state: number;
@@ -55,6 +57,18 @@ export class ListTroopersPage {
         state: STATE.DEFAULT
       };
     });
+  }
+
+  private onEditTrooperClick(item: Item) {
+    const trooper = item.trooper;
+    // item.state = STATE.DEFAULT;
+    // this.navCtrl.push(ListTroopersEditPage, { trooper });
+    const addTrooperModal = this.modalCtrl.create(ListTroopersEditPage, {trooper});
+     addTrooperModal
+     .onDidDismiss(trooper => {
+
+    });
+    addTrooperModal.present();
   }
 
   public onCreateTrooperClick() {
@@ -150,12 +164,6 @@ export class ListTroopersPage {
     checkNext();
   }
 
-    private onEditTrooperClick(item: Item){
-      const trooper = item.trooper;
-      item.state = STATE.DEFAULT;
-      this.navCtrl.push(ListTroopersEditPage, { trooper });
-    }
-
   private onRemoveTrooperClick(item: Item){
     const index = this.list.troopers.indexOf(item.trooper);
     if (index === -1) { return; }
@@ -167,27 +175,29 @@ export class ListTroopersPage {
     this.actionSheetController.create({
       title: 'What to do?',
       buttons: [
+        { text: 'Check', handler: () => this.onCheckClick(item) },
         { text: 'Edit', handler: () => this.onEditTrooperClick(item) },
         { text: 'Remove', role: 'destructive',
           handler: () => this.onRemoveTrooperClick(item)
         },
-        { text: 'Check', role: 'destructive',
-          handler: () => this.onCheckClick(item)
-        },
-        { text: 'Cancel', role: 'cancel', handler: () => {} }
+        { text: 'Cancel', role: 'cancel', handler: noop }
       ]
     }).present();
   }
 
-
   private presentListActionSheet() {
-    this.actionSheetController.create({ buttons: [
-        { text: 'Check all', handler: () => this.onCheckAllClick() },
+    const buttons = [
         { text: 'Import', handler: () => this.onImportClick() },
         { text: 'Add trooper', handler: () => this.onCreateTrooperClick() },
         { text: 'Settings', role: 'destructive', handler: () => this.onSettingsClick() }, 
-        { text: 'Cancel', role: 'cancel', handler: () => {} }
-    ]}).present();
+        { text: 'Cancel', role: 'cancel', handler: noop }
+    ];
+
+    if(this.list.troopers.length > 0){
+      buttons.unshift({ text: 'Check all', handler: () => this.onCheckAllClick() })
+    }
+
+    this.actionSheetController.create({ buttons }).present();
   }
 }
 

@@ -1,11 +1,15 @@
 <ion-list>
     <ion-item>
-        <ion-label>name</ion-label>
-        <ion-input type="text" [(ngModel)]="trooper.name"></ion-input>
+        <ion-label floating>name</ion-label>
+        <ion-input type="text" [(ngModel)]="trooper.name" clearInput></ion-input>
     </ion-item>
-
     <ion-item>
-        <ion-label>password</ion-label>
-        <ion-input type="text" [(ngModel)]="trooper.pass"></ion-input>
+        <ion-label floating>password</ion-label>
+        <ion-input type="text" [(ngModel)]="trooper.pass" clearInput></ion-input>
     </ion-item>    
 </ion-list>
+    <button 
+      [disabled]="trooper.name.length === 0 || currentState === STATE.CHECKING" 
+      (click)="onSaveClick()" ion-button block>
+        {{buttonText}}
+    </button>
