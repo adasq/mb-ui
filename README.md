@@ -1,1 +1,1 @@
-# minibotters-ui
+# mb-ui
