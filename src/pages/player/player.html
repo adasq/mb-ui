@@ -8,18 +8,27 @@
   <ion-item (click)="onUpgradeClicked(item)" [ngClass]="{
     'item-upgrade-available': item.state === STATE.UPGRADE_AVAILABLE,
     'item-playing': item.state === STATE.PLAYING,
+    'item-skill-selecting': item.state === STATE.SKILL_SELECTING,
+    'item-skill-selected': item.state === STATE.SKILL_SELECTED,
     'item-error': item.state === STATE.ERROR
   }"
   *virtualItem="let item">
-    <ion-avatar item-left>
+
+    <!--<ion-avatar item-right>
       <ion-icon name="person"></ion-icon>
-    </ion-avatar>
+    </ion-avatar>-->
     <h2>{{item.trooper.name}}</h2>
     <p class="state-upgrade-available">
       Upgrades available
     </p>
     <p class="state-playing">
       Waiting for result...
+    </p>
+    <p class="state-skill-selecting">
+      Selecting skill...
+    </p>    
+    <p class="state-skill-selected">
+      Skill selected!
     </p>
     <p class="state-error">
       {{item.error}}

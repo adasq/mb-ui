@@ -11,7 +11,6 @@ export class ReportComponent {
     @Output() onSkillSelected = new EventEmitter<number>();
  
   constructor(public navCtrl: NavController) {
-    console.log(11111)
   }
 
   public selectSkill(skillId: number){

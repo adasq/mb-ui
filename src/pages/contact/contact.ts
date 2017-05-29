@@ -51,9 +51,11 @@ export class ContactPage {
 
   public onSkillSelected(skillId: number) {
     this.item.state = STATE.SKILL_SELECTING;
-    // setTimeout(() => {
-    //    this.item.state = STATE.SKILL_SELECTED;
-    // });
+    // this.changeDetectorRef.detectChanges();
+    setTimeout(() => {
+       this.item.state = STATE.SKILL_SELECTED;
+       console.log(skillId);
+    }, 1000);
     if (this.items) {
       this.selectNextReport();
     } else {

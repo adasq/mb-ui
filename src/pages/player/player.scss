@@ -16,6 +16,12 @@ page-player {
     @include showHideBahavior('upgrade-available');
     @include showHideBahavior('playing');
     @include showHideBahavior('error');
+    @include showHideBahavior('skill-selecting');
+    @include showHideBahavior('skill-selected');
+
+    .item-skill-selecting, .item-playing {
+        background-color: rgba(0, 0, 255, 0.02);
+    }
 
     .upgrade-button {
         display: none;

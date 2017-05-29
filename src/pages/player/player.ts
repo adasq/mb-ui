@@ -76,7 +76,7 @@ export class PlayerPage {
             // this.scrollToItem(item);
             cb();
             this.statistics.finished++;
-            //this.changeDetectorRef.detectChanges();
+            this.changeDetectorRef.detectChanges();
       });
     }
     this.trooperService.runStepByStep(this.items, action);
