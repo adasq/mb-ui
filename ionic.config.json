@@ -1,8 +1,6 @@
 {
   "name": "minibotters",
   "app_id": "f0adb118",
-  "v2": true,
-  "typescript": true,
   "proxies": [
     {
       "path": "/api",
@@ -15,6 +13,11 @@
     {
       "path": "/list",
       "proxyUrl": "https://gist.githubusercontent.com/anonymous/606a8a29abcc04017995484ab39bc47b/raw/422aa84746e4d448b1df629e51fce5507eddddae/gistfile1.txt"
+    },
+    {
+      "path": "/tension",
+      "proxyUrl": "http://mini2-botters.rhcloud.com"
     }
-  ]
+  ],
+  "type": "ionic-angular"
 }

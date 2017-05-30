@@ -54,7 +54,17 @@ export class AboutPage {
         this.http.get(API + '/test')
           .map(res => res.json())
           .subscribe(response => {
-            this.items[0] = response[0];
+            response = response.map(elem => {
+              if(elem.description.indexOf('<b>') > -1){
+                return `<p class="hahaxd">
+                  ${elem.description}
+                </p>`;
+              }else{
+                return `<p class="hahaxd">${elem.title}</p>`;
+              }
+
+            })
+            this.items[0] = ':D';
             this.data = response;
           });
   }

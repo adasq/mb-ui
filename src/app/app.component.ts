@@ -68,6 +68,11 @@ export class MyApp {
     this.pages = lists;
   }
 
+  onTensionClick() {
+    this.nav.setRoot(AboutPage, {});
+    
+  }
+
   onCreateNewListClick(){
     this.nav.setRoot(ListNewPage, {});
   }
