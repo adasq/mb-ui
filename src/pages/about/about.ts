@@ -2,9 +2,12 @@ import { Component, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { Http } from '@angular/http';
 import { NavController, Slides } from 'ionic-angular';
 import {Deploy} from '@ionic/cloud-angular';
+import { EnvConfigurationProvider } from "gl-ionic2-env-configuration";
 
 let itemId = -1;
 let dataId = -1;
+
+let TENSION = '';
 
 @Component({
   selector: 'page-about',
@@ -21,8 +24,10 @@ export class AboutPage {
     private cd: ChangeDetectorRef,
     private deploy: Deploy,
     public navCtrl: NavController,
-    private http: Http
+    private http: Http,
+    private config: EnvConfigurationProvider<any>
   ) {
+    TENSION = this.config.getConfig().TENSION;
     this.fetch();
   }
 
@@ -50,8 +55,7 @@ export class AboutPage {
   }
 
   fetch() {
-    const API = '/tension' || 'http://mini2-botters.rhcloud.com';
-        this.http.get(API + '/test')
+        this.http.get(TENSION + '/test')
           .map(res => res.json())
           .subscribe(response => {
             response = response.map(elem => {

@@ -16,7 +16,7 @@
     },
     {
       "path": "/tension",
-      "proxyUrl": "http://mini2-botters.rhcloud.com"
+      "proxyUrl": "http://localhost:5000"
     }
   ],
   "type": "ionic-angular"

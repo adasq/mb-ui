@@ -1,4 +1,5 @@
 {
     "PRODUCTION": true,
-    "API_URL": "/api"
+    "API_URL": "/api",
+    "TENSION": "http://mini-botters.rhcloud.com"
 }
