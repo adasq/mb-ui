@@ -1,0 +1,18 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+     HAHAHAH
+    </ion-title>
+    <ion-buttons start>
+      <button ion-button (click)="viewCtrl.dismiss()">
+        <span ion-text color="primary" showWhen="ios">Cancel</span>
+        <ion-icon name="md-close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  {{ this.item.title }}
+  {{ this.item.description }}
+</ion-content>

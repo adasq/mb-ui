@@ -3,23 +3,13 @@ import { Http } from '@angular/http';
 import { NavController, Slides, ActionSheetController, ViewController, ModalController } from 'ionic-angular';
 import {Deploy} from '@ionic/cloud-angular';
 import { EnvConfigurationProvider } from "gl-ionic2-env-configuration";
+import { DetailsPage } from './details/details';
 
 let itemId = -1;
 let dataId = -1;
 
 let TENSION = '';
 
-@Component({
-  selector: 'page-details',
-  templateUrl: 'details.html'
-})
-export class DetailsPage {
-
-  constructor(
-    public viewCtrl: ViewController
-  ){
-  }
-}
 
 @Component({
   selector: 'page-about',
@@ -31,6 +21,8 @@ export class AboutPage {
 
   public items: any[] = [1, 2, 3];
   public data: any[] = null;
+  public pureData: any[] = null;
+  public currentData;
 
   constructor(
     private cd: ChangeDetectorRef,
@@ -55,9 +47,9 @@ export class AboutPage {
   ionSlideNextStart(event) {
     itemId = getNextItemId();
     dataId = this.getNextDataId();
-    
+    this.currentData = this.pureData[dataId];
     const nextVal = this.data[this.getNextDataId()];
-    
+   
     Array.from(document.querySelectorAll(`.tension-id-${getNextItemId()}`)).forEach(elem => {
       elem['innerHTML'] = nextVal;
     });
@@ -69,7 +61,7 @@ export class AboutPage {
   }
 
   showDetails() {
-    const showOptionsModal = this.modalCtrl.create(DetailsPage, {});
+    const showOptionsModal = this.modalCtrl.create(DetailsPage, {item: this.currentData});
     showOptionsModal.present();
   }
 
@@ -88,6 +80,7 @@ export class AboutPage {
         this.http.get(TENSION + '/test')
           .map(res => res.json())
           .subscribe(response => {
+            this.pureData = response;
             response = response.map((elem, i) => {
               let contentText = '';
               if(elem.description.indexOf('<b>') > -1) {

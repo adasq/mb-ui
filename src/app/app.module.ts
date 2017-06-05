@@ -4,7 +4,8 @@ import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { HttpModule } from '@angular/http';
 
-import { AboutPage, DetailsPage } from '../pages/about/about';
+import { AboutPage } from '../pages/about/about';
+import { DetailsPage } from '../pages/about/details/details';
 import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
 import { PlayerPage } from '../pages/player/player';
