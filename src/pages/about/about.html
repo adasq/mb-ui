@@ -9,7 +9,7 @@
 </ion-header>
 
 <ion-content>
-  <ion-slides *ngIf="data != null" loop="true" direction="vertical"
+  <ion-slides (press)="showOptions()" *ngIf="data != null" loop="true" direction="vertical"
   (ionSlideDidChange)="ionSlideDidChange()"
   (ionSlideNextStart)="ionSlideNextStart($event)"
   (ionSlidePrevStart)="ionSlidePrevStart()"

@@ -20,7 +20,7 @@ import { EnvConfigurationProvider } from "gl-ionic2-env-configuration";
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage:any = HomePage || ListTroopersPage;
+  rootPage:any = AboutPage || HomePage || ListTroopersPage;
   public version: any = null;
   pages: Array<{title: string, component: any, params?: any}>;
 

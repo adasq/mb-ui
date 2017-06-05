@@ -1,6 +1,6 @@
 import { Component, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { Http } from '@angular/http';
-import { NavController, Slides } from 'ionic-angular';
+import { NavController, Slides, ActionSheetController, ViewController, ModalController } from 'ionic-angular';
 import {Deploy} from '@ionic/cloud-angular';
 import { EnvConfigurationProvider } from "gl-ionic2-env-configuration";
 
@@ -8,6 +8,18 @@ let itemId = -1;
 let dataId = -1;
 
 let TENSION = '';
+
+@Component({
+  selector: 'page-details',
+  templateUrl: 'details.html'
+})
+export class DetailsPage {
+
+  constructor(
+    public viewCtrl: ViewController
+  ){
+  }
+}
 
 @Component({
   selector: 'page-about',
@@ -25,7 +37,9 @@ export class AboutPage {
     private deploy: Deploy,
     public navCtrl: NavController,
     private http: Http,
-    private config: EnvConfigurationProvider<any>
+    private config: EnvConfigurationProvider<any>,
+    private actionSheetController: ActionSheetController,
+    private modalCtrl: ModalController,
   ) {
     TENSION = this.config.getConfig().TENSION;
     this.fetch();
@@ -52,6 +66,22 @@ export class AboutPage {
   ionSlidePrevStart() {
     itemId = getPrevItemId();
     dataId = this.getPrevDataId();
+  }
+
+  showDetails() {
+    const showOptionsModal = this.modalCtrl.create(DetailsPage, {});
+    showOptionsModal.present();
+  }
+
+  showOptions() {    
+    this.actionSheetController.create({
+          title: 'What to do?',
+          buttons: [
+            { text: 'Check', handler: () => this.showDetails() },
+            { text: 'Cancel', role: 'cancel', handler: () => {} }
+          ]
+      }).present();
+    this.actionSheetController
   }
 
   fetch() {
