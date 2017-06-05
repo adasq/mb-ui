@@ -58,16 +58,25 @@ export class AboutPage {
         this.http.get(TENSION + '/test')
           .map(res => res.json())
           .subscribe(response => {
-            response = response.map(elem => {
-              if(elem.description.indexOf('<b>') > -1){
-                return `<p class="hahaxd">
-                  ${elem.description}
-                </p>`;
+            response = response.map((elem, i) => {
+              let contentText = '';
+              if(elem.description.indexOf('<b>') > -1) {
+                contentText =  elem.description
               }else{
-                return `<p class="hahaxd">${elem.title}</p>`;
+                contentText=  elem.title
               }
+              return `
+                <div class="content-wrap">
+                  <div class="content">
+                    <p>${contentText}</p>
+                  </div>
+                  <div class="pagination">
+                    ${i + 1}/${response.length}
+                  </div>
+                </div>
+              `;
+            });
 
-            })
             this.items[0] = ':D';
             this.data = response;
           });

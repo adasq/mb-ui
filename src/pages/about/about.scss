@@ -13,9 +13,26 @@ page-about {
             color: #000;
         }
     }
-    .hahaxd {
-        font-size: 20px;
-        padding: 0px 10%;
-        text-align: justify;
+
+    .content-wrap {
+        width: 100%;
+        height: calc(100% - 58px);
+        display: flex;
+        flex-direction: column;
+    }
+
+    .content {
+        display: flex;
+        align-content: center;
+        justify-content: center;
+        flex: 1 0 auto;
+        p {
+            align-self: center;
+        }
+    }
+
+    .pagination {
+        display: flex;
+        flex: 0 0 50px;
     }
 }
