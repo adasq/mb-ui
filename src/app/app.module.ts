@@ -6,6 +6,7 @@ import { HttpModule } from '@angular/http';
 
 import { AboutPage } from '../pages/about/about';
 import { DetailsPage } from '../pages/about/details/details';
+import { SlideComponent } from '../pages/about/slide/slide.component';
 import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
 import { PlayerPage } from '../pages/player/player';
@@ -56,6 +57,7 @@ const cloudSettings: CloudSettings = {
     ListSettingsPage,
     ListNewPage,
     ReportComponent,
+    SlideComponent,
     TrooperEditComponent,
     ListEditComponent
   ],
