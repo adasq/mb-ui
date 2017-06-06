@@ -13,6 +13,12 @@
 </ion-header>
 
 <ion-content padding>
-  {{ this.item.title }}
-  {{ this.item.description }}
+  <p>{{ item.title }}</p>
+
+  <p>{{ item.description }}</p>
+
+  <a href="{{ item.url }}">
+    {{ item.url }}
+  </a>
+
 </ion-content>
