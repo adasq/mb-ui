@@ -29,20 +29,19 @@ export class AboutPage {
     this.fetch();
   }
 
-  showDetails() {
-    const showOptionsModal = this.modalCtrl.create(DetailsPage, {item: this.currentData});
+  showDetails(item) {
+    const showOptionsModal = this.modalCtrl.create(DetailsPage, {item});
     showOptionsModal.present();
   }
 
-  showOptions() {    
+  onItemPress(item) {
     this.actionSheetController.create({
           title: 'What to do?',
           buttons: [
-            { text: 'Check', handler: () => this.showDetails() },
+            { text: 'Check', handler: () => this.showDetails(item) },
             { text: 'Cancel', role: 'cancel', handler: () => {} }
           ]
       }).present();
-    this.actionSheetController
   }
 
   fetch() {

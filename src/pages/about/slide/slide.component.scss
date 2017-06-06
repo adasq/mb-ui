@@ -22,8 +22,11 @@ slide-component {
         align-content: center;
         justify-content: center;
         flex: 1 0 auto;
+        padding: 0 10%;
         p {
+            font-size: 17px;
             align-self: center;
+            text-align: justify;
         }
     }
 

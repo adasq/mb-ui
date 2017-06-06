@@ -1,4 +1,4 @@
-import { Component, ViewChild, ChangeDetectorRef, Input, OnInit } from '@angular/core';
+import { Component, ViewChild, ChangeDetectorRef, Input, Output, OnInit, EventEmitter  } from '@angular/core';
 import { Http } from '@angular/http';
 import { NavController, Slides, ActionSheetController, ViewController, ModalController } from 'ionic-angular';
 import {Deploy} from '@ionic/cloud-angular';
@@ -15,10 +15,8 @@ let TENSION = '';
 })
 export class SlideComponent implements OnInit {
 
-
 	@Input() itemlist: any[];
- //    @Input() buttonText: string;
-
+	@Output() itemPress = new EventEmitter();
   @ViewChild(Slides) slidesElem: Slides;
 
   public items: any[] = [1, 2, 3];
@@ -36,8 +34,7 @@ export class SlideComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-  			console.log(this.itemlist, '!');
-  	            this.pureData = this.itemlist;
+  	          this.pureData = this.itemlist;
 
             const response2 = this.itemlist.map((elem, i) => {
               let contentText = '';
@@ -73,9 +70,18 @@ export class SlideComponent implements OnInit {
     itemId = getNextItemId();
     dataId = this.getNextDataId();
     this.currentData = this.pureData[dataId];
-    const nextVal = this.data[this.getNextDataId()];
-   
+    const nextId = this.getNextDataId();
+    const nextVal = this.data[nextId];
+    const nextItem = this.pureData[nextId];
+    
     Array.from(document.querySelectorAll(`.tension-id-${getNextItemId()}`)).forEach(elem => {
+
+      const color = {
+        'feasible': 'orange',
+        'chilling': 'red'
+      }[nextItem.type];
+
+      elem['style']['backgroundColor'] = color || '#ccc';
       elem['innerHTML'] = nextVal;
     });
   }
@@ -86,8 +92,8 @@ export class SlideComponent implements OnInit {
   }
 
 
-  onPaneClick() {    
-    console.log(1);
+  onPaneClick() {
+    this.itemPress.emit(this.currentData);
   }
 
 
@@ -105,4 +111,10 @@ function getNextItemId(){
 }
 function getPrevItemId(){
   return (itemId - 1) === -1 ? 2 : itemId - 1;
+}
+
+const colors = ['orange', 'red', 'aqua'];
+
+function getRandomColor() {
+  return colors[Math.floor(Math.random() * colors.length)]
 }
