@@ -35,7 +35,7 @@ export class AboutPage {
             preserveSnapshot: true,
             query: {
                 orderByChild: 'date',
-                limitToFirst: 10
+                limitToFirst: 20
             }
         }).subscribe((result) => {
             this.pureData = result.map(item => item.val()).reverse();
