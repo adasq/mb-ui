@@ -1,6 +1,7 @@
 import { Component, ChangeDetectorRef } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { TrooperService } from '../../app/trooper/trooper.service'
+import { AngularFireDatabase } from 'angularfire2/database';
 
 import { STATE } from '../player/player';
 
@@ -17,7 +18,8 @@ export class ContactPage {
     private navCtrl: NavController,
     private changeDetectorRef: ChangeDetectorRef,
     private trooperService: TrooperService,
-    private params: NavParams
+    private params: NavParams,
+    public af: AngularFireDatabase
   ) {
     this.item = this.params.get('item');
     this.items = this.params.get('items');
@@ -51,11 +53,7 @@ export class ContactPage {
 
   public onSkillSelected(skillId: number) {
     this.item.state = STATE.SKILL_SELECTING;
-    // this.changeDetectorRef.detectChanges();
-    setTimeout(() => {
-       this.item.state = STATE.SKILL_SELECTED;
-       console.log(skillId);
-    }, 1000);
+    this.af.object(`/queue2/${this.item.trooper.name}`).set({ skillId });
     if (this.items) {
       this.selectNextReport();
     } else {

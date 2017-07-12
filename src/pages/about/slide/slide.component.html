@@ -1,17 +1,14 @@
-  <ion-slides (press)="onPaneClick()" *ngIf="data != null" loop="true" direction="vertical"
+  <ion-slides (press)="onPaneClick()" *ngIf="htmlData != null" loop="true" direction="vertical"
     (ionSlideDidChange)="ionSlideDidChange()"
     (ionSlideNextStart)="ionSlideNextStart($event)"
     (ionSlidePrevStart)="ionSlidePrevStart()"
   >
     <ion-slide class="tension-id-0">
-      {{ items[0] }}
     </ion-slide>
 
     <ion-slide class="tension-id-1">
-      {{ items[1] }}
     </ion-slide>
 
     <ion-slide class="tension-id-2">
-      {{ items[2] }}
     </ion-slide>        
 </ion-slides>

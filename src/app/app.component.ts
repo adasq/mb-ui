@@ -5,14 +5,13 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { HomePage } from '../pages/home/home';
-import { ContactPage } from '../pages/contact/contact';
-import { PlayerPage } from '../pages/player/player';
 import { AboutPage } from '../pages/about/about';
 import { ListNewPage } from '../pages/list/new/new';
 import { ListTroopersPage } from '../pages/list/troopers/troopers';
 
 import { ListsService } from './lists/lists.service';
 import { EnvConfigurationProvider } from "gl-ionic2-env-configuration";
+import { AngularFireDatabase } from 'angularfire2/database';
 
 @Component({
   templateUrl: 'app.html'
@@ -20,7 +19,7 @@ import { EnvConfigurationProvider } from "gl-ionic2-env-configuration";
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage:any = AboutPage || HomePage || ListTroopersPage;
+  rootPage:any = HomePage || AboutPage || ListTroopersPage;
   public version: any = null;
   pages: Array<{title: string, component: any, params?: any}>;
 
@@ -31,7 +30,8 @@ export class MyApp {
     splashScreen: SplashScreen,
     private listsService: ListsService,
     private events: Events,
-    private config: EnvConfigurationProvider<any>
+    private config: EnvConfigurationProvider<any>,
+    public af: AngularFireDatabase
   ) {
     const { API_URL } = this.config.getConfig(); 
     this.http.get(API_URL + '/version')
@@ -40,8 +40,6 @@ export class MyApp {
         this.version = version;
       });
     platform.ready().then(() => {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
       statusBar.styleDefault();
       splashScreen.hide();
     });
@@ -52,6 +50,23 @@ export class MyApp {
     this.events.subscribe('lists:added', list => {
         this.setOptions();
     });
+
+    this.loadTensionCategories();
+  }
+
+  loadTensionCategories() {
+        this.af.object(`/subscriptions`, { preserveSnapshot: true })
+          .subscribe(result => {
+            const data = result.val();
+            Object.keys(data).forEach(key => {
+                const id = data[key].id;
+                this.pages.push({
+                  title: key,
+                  component: AboutPage,
+                  params: { id }
+                });
+            });
+          });
   }
 
   setOptions() {

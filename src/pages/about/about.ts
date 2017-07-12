@@ -1,11 +1,11 @@
 import { Component, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { Http } from '@angular/http';
-import { NavController, Slides, ActionSheetController, ViewController, ModalController } from 'ionic-angular';
+import { NavController, NavParams, Slides, ActionSheetController, ViewController, ModalController } from 'ionic-angular';
 import {Deploy} from '@ionic/cloud-angular';
 import { EnvConfigurationProvider } from "gl-ionic2-env-configuration";
 import { DetailsPage } from './details/details';
-
-let TENSION = '';
+import { AngularFireDatabase } from 'angularfire2/database';
+import { Entry } from './entry.interace';
 
 @Component({
   selector: 'page-about',
@@ -13,20 +13,33 @@ let TENSION = '';
 })
 export class AboutPage {
 
-  public pureData: any[] = null;
-  private currentData: any;
+  public pureData: Entry[] = null;
   
   constructor(
     private cd: ChangeDetectorRef,
     private deploy: Deploy,
     public navCtrl: NavController,
     private http: Http,
+    public params: NavParams,
     private config: EnvConfigurationProvider<any>,
     private actionSheetController: ActionSheetController,
     private modalCtrl: ModalController,
+    public af: AngularFireDatabase
   ) {
-    TENSION = this.config.getConfig().TENSION;
-    this.fetch();
+    this.pureData = null;
+    this.loadDataById(this.params.get('id'));
+  }
+
+  loadDataById(id: number) {
+    this.af.list(`/entries/${id}`, {
+      preserveSnapshot: true,
+      query: {
+        orderByChild: 'date',
+        limitToFirst: 5
+      }
+    }).subscribe((result) => {
+      this.pureData = result.map(item => item.val());
+    });
   }
 
   showDetails(item) {
@@ -42,13 +55,5 @@ export class AboutPage {
             { text: 'Cancel', role: 'cancel', handler: () => {} }
           ]
       }).present();
-  }
-
-  fetch() {
-        this.http.get(TENSION + '/test')
-          .map(res => res.json())
-          .subscribe(response => {
-            this.pureData = response;
-          });
   }
 }

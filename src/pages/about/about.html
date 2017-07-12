@@ -9,5 +9,6 @@
 </ion-header>
 
 <ion-content>
+  <div *ngIf="!pureData">loading...</div>
   <slide-component (itemPress)="onItemPress($event)" *ngIf="pureData" [itemlist]="pureData"></slide-component>
 </ion-content>

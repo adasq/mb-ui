@@ -1,13 +1,9 @@
-import { Component, ViewChild, ChangeDetectorRef, Input, Output, OnInit, EventEmitter  } from '@angular/core';
-import { Http } from '@angular/http';
-import { NavController, Slides, ActionSheetController, ViewController, ModalController } from 'ionic-angular';
-import {Deploy} from '@ionic/cloud-angular';
-import { EnvConfigurationProvider } from "gl-ionic2-env-configuration";
+import { Component, ViewChild, Input, Output, OnInit, EventEmitter  } from '@angular/core';
+import { Slides} from 'ionic-angular';
+import { Entry } from '../entry.interace';
 
 let itemId = -1;
 let dataId = -1;
-
-let TENSION = '';
 
 @Component({
   selector: 'slide-component',
@@ -15,75 +11,66 @@ let TENSION = '';
 })
 export class SlideComponent implements OnInit {
 
-	@Input() itemlist: any[];
-	@Output() itemPress = new EventEmitter();
+	@Input() itemlist: Entry[];
+	@Output() itemPress = new EventEmitter<Entry>();
   @ViewChild(Slides) slidesElem: Slides;
 
-  public items: any[] = [1, 2, 3];
-  public data: any[] = null;
-  public pureData: any[] = null;
-  public currentData;
+  public htmlData: string[] = null;
+  public currentData: Entry;
 
-  constructor(
-    private deploy: Deploy,
-    public navCtrl: NavController,
-    private http: Http,
-    private config: EnvConfigurationProvider<any>,
-    private actionSheetController: ActionSheetController,
-    private modalCtrl: ModalController,
-  ) { }
+  constructor() { }
 
   ngOnInit() {
-  	          this.pureData = this.itemlist;
+    itemId = -1;
+    dataId = -1;
+    this.htmlData = this.generateHtmlData();
+    this.renderFirstItem();
+  }
 
-            const response2 = this.itemlist.map((elem, i) => {
-              let contentText = '';
-              if(elem.description.indexOf('<b>') > -1) {
-                contentText =  elem.description
-              }else {
-                contentText=  elem.title
-              }
-              return `
-                <div class="content-wrap">
-                  <div class="content">
-                    <p>${contentText}</p>
+  renderFirstItem() {
+    setTimeout(() => this.render(this.htmlData[0], 0));
+  }
+
+  generateHtmlData(): string[] {
+            return this.itemlist.map((elem: Entry, i: number) => {
+                let contentText;
+                if(elem.description.indexOf('<b>') > -1) {
+                  contentText = elem.description
+                }else {
+                  contentText = elem.title
+                }
+                return `
+                  <div class="content-wrap">
+                    <div class="content">
+                      <p>${contentText}</p>
+                    </div>
+                    <div class="pagination">
+                      ${i + 1}/${this.itemlist.length} ${new Date(elem.date)}
+                    </div>
                   </div>
-                  <div class="pagination">
-                    ${i + 1}/${this.itemlist.length}
-                  </div>
-                </div>
-              `;
+                `;
             });
+  }
 
-            this.items[0] = ':D';
-            this.data = response2;
+  render(html, id) {
+    Array.from(document.querySelectorAll(`.tension-id-${id}`)).forEach(elem => {
+      elem['innerHTML'] = html;
+    });
   }
 
   ionSlideDidChange() {
-    const prevValue =  this.data[this.getPrevDataId()];
-    Array.from(document.querySelectorAll(`.tension-id-${getPrevItemId()}`)).forEach(elem => {
-      elem['innerHTML'] = prevValue;
-    });
+    const prevValue =  this.htmlData[this.getPrevDataId()];
+    this.render(prevValue, getPrevItemId());
   }
 
   ionSlideNextStart(event) {
     itemId = getNextItemId();
     dataId = this.getNextDataId();
-    this.currentData = this.pureData[dataId];
+    this.currentData = this.itemlist[dataId];
     const nextId = this.getNextDataId();
-    const nextVal = this.data[nextId];
-    const nextItem = this.pureData[nextId];
+    const nextVal = this.htmlData[nextId];
     
-    Array.from(document.querySelectorAll(`.tension-id-${getNextItemId()}`)).forEach(elem => {
-
-      const color = {
-        'feasible': 'orange',
-        'chilling': 'red'
-      }[nextItem.type];
-
-      elem['style']['backgroundColor'] = color || '#ccc';
-      elem['innerHTML'] = nextVal;
-    });
+    this.render(nextVal, getNextItemId());
   }
 
   ionSlidePrevStart() {
@@ -91,18 +78,16 @@ export class SlideComponent implements OnInit {
     dataId = this.getPrevDataId();
   }
 
-
   onPaneClick() {
     this.itemPress.emit(this.currentData);
   }
 
-
   getNextDataId(){
-    return (dataId + 1) === this.data.length ? 0 : dataId + 1;
+    return (dataId + 1) === this.htmlData.length ? 0 : dataId + 1;
   }
   
   getPrevDataId(){
-    return  (dataId - 1) === -1 ? this.data.length -1 : dataId - 1;
+    return  (dataId - 1) === -1 ? this.htmlData.length -1 : dataId - 1;
   }
 }
 
@@ -111,10 +96,4 @@ function getNextItemId(){
 }
 function getPrevItemId(){
   return (itemId - 1) === -1 ? 2 : itemId - 1;
-}
-
-const colors = ['orange', 'red', 'aqua'];
-
-function getRandomColor() {
-  return colors[Math.floor(Math.random() * colors.length)]
 }

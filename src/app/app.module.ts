@@ -35,7 +35,8 @@ import { Clipboard } from '@ionic-native/clipboard';
 import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
 
 import { GLIonic2EnvConfigurationModule } from 'gl-ionic2-env-configuration';
-
+import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { AngularFireModule } from 'angularfire2';
 const cloudSettings: CloudSettings = {
   'core': {
     'app_id': 'f0adb118'
@@ -62,6 +63,12 @@ const cloudSettings: CloudSettings = {
     ListEditComponent
   ],
   imports: [
+    AngularFireModule.initializeApp({
+      apiKey: 'AIzaSyBTPqYLRhEnnKD5Wkw1OdA8sHP386L7xD8',
+      databaseURL: 'https://test-8c34c.firebaseio.com/',
+      projectId: 'test-8c34c',
+  }, 'my-app'),
+    AngularFireDatabaseModule,
     HttpModule,
     BrowserModule,
     GLIonic2EnvConfigurationModule,

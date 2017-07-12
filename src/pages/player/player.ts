@@ -7,6 +7,7 @@ import { Trooper } from '../../app/trooper/trooper.interface';
 import { TrooperService } from '../../app/trooper/trooper.service';
 import { ContactPage } from '../contact/contact';
 import { List } from '../../app/lists/list.interface';
+import { AngularFireDatabase } from 'angularfire2/database';
 
 import 'rxjs/add/operator/map';
 
@@ -18,6 +19,11 @@ export const STATE = {
   SKILL_SELECTING: 4,
   SKILL_SELECTED: 5,
   ERROR: 6
+};
+
+export const REQUEST_STATE = {
+  PLAY: 1,
+  SELECT_SKILL: 2
 };
 
 interface Item {
@@ -42,7 +48,8 @@ export class PlayerPage {
     public navCtrl: NavController,
     private changeDetectorRef: ChangeDetectorRef,
     private trooperService: TrooperService,
-    private params: NavParams
+    private params: NavParams,
+    public af: AngularFireDatabase,
    ) {
     this.list = this.params.get('list');
 
@@ -55,40 +62,61 @@ export class PlayerPage {
       } as Item;
     });
 
+    this.registerForChanges();
+    
     this.statistics.totalItems = this.items.length;
     this.statistics.finished = 0;
+  }
 
-    let action = (item: Item, cb) => {
-      item.state = STATE.PLAYING;
-      this.trooperService.play(item.trooper, this.list.domain)
-        .subscribe(report => {
-            if(report.code){
-              item.state = STATE.ERROR;
-              item.error = report.message;
-            } else {
-              item.report = this.createReport(report);
-              if (item.report.availableSkills) {
-                item.state = STATE.UPGRADE_AVAILABLE;
-              } else {
-                item.state = STATE.UPGRADE_NOT_AVAILABLE;
-              }
-            }
-            // this.scrollToItem(item);
-            cb();
-            this.statistics.finished++;
-            this.changeDetectorRef.detectChanges();
+  public isPlayingMode() {
+    return this.statistics.finished > 0;
+  }
+
+  private onItemStateUpdated(item, result) {
+      const report = result.val();
+      if(!report) return;
+      
+      //item.lastUpdated = report.lastUpdated;
+      const date = new Date(report.lastUpdated);
+      var datewithouttimezone = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(),  date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
+      item.lastUpdated = datewithouttimezone;
+      console.log(datewithouttimezone);
+
+      if(item.state === STATE.PLAYING) {
+        this.statistics.finished = this.statistics.finished + 1;
+      }
+
+      item.state = report.state;
+
+      if (report.state === STATE.ERROR){
+          item.error = report.error;
+      } else {
+          if( report.state === STATE.SKILL_SELECTED ) {
+            item.report = null;
+          } else {
+            item.report = this.createReport(report);
+          }          
+      }
+  }
+
+  public registerForChanges() {
+        this.items.forEach((item) => {
+          this.af.object(`/results/${item.trooper.name}`, { preserveSnapshot: true })
+          .subscribe(result => this.onItemStateUpdated(item, result));
+    });
+  }
+
+  public forcePlay() {
+    this.statistics.totalItems = this.items.length;
+    this.statistics.finished = 0;
+    this.items.forEach((item) => {
+      this.af.object(`/queue/${item.trooper.name}`).set({
+        aaa: 'REQUEST_STATE.PLAY'
       });
-    }
-    this.trooperService.runStepByStep(this.items, action);
+      item.state = STATE.PLAYING;
+    });
   }
 
-  private scrollToItem(item: Item){
-    console.log(this.content.scrollTo)
-    if(!this.content){
-      return console.log(`${item.trooper.name} elem does not exists`);
-    }
-    this.content.scrollTo(0, (this.items.indexOf(item) + 0) * 67, 400);
-  }
 
   public getAvailableForUpgradeCount() {
     return this.items.filter(item => item.state === STATE.UPGRADE_AVAILABLE).length;
@@ -113,7 +141,7 @@ export class PlayerPage {
               ] : null,
               battles: [true, false, true],
               missions: [true, false, false],
-              raid: report.fight[2][0],
+              raid: report.fight[2] && report.fight[2][0],
               skills: [],
               totalMoney: report.skills.money,
               requiredMoney: report.skills.needToUpgrade

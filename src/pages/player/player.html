@@ -17,7 +17,8 @@
     <!--<ion-avatar item-right>
       <ion-icon name="person"></ion-icon>
     </ion-avatar>-->
-    <h2>{{item.trooper.name}}</h2>
+    <h2>{{item.trooper.name}}</h2> 
+    <h3>{{ item.lastUpdated | date:'yMMMdjms' }}</h3>
     <p class="state-upgrade-available">
       Upgrades available
     </p>
@@ -44,8 +45,8 @@
 </ion-content>
 <ion-footer>
   <ion-toolbar>
-    <p>{{ toPercentage() }}
-    </p>
+    <button *ngIf="!isPlayingMode()" (click)="forcePlay()">play</button>
+    <p>{{ toPercentage() }}</p>
     <ion-buttons end>
       <button 
       *ngIf="getAvailableForUpgradeCount() > 0"
