@@ -1,0 +1,23 @@
+<section>
+    <div style="display: inline-block;" *ngFor="let queryComponent of query">        
+        <!-- <ion-badge *ngIf="queryComponent.isOr" color="secondary">OR</ion-badge>
+        <ion-badge *ngIf="queryComponent.isAnd" color="secondary">AND</ion-badge> -->
+        <button (click)="onOperatorClick(queryComponent)" ion-button large *ngIf="queryComponent.isOr" color="secondary">OR</button>
+        <button (click)="onOperatorClick(queryComponent)" ion-button large *ngIf="queryComponent.isAnd" color="secondary">AND</button>
+        <button (click)="onWordClick(queryComponent)" ion-button large *ngIf="queryComponent.isWord">
+            "{{queryComponent.word}}"
+        </button>
+    </div>
+    <button (click)="add()" ion-button large color="light">+</button>
+
+<br>
+
+<!-- <p>
+    <span *ngFor="let queryComponent of query">
+        <span *ngIf="queryComponent.isOr"> OR </span>
+        <span *ngIf="queryComponent.isAnd"> AND </span>
+        <span *ngIf="queryComponent.isWord">"{{queryComponent.word}}"</span>
+    </span>
+</p> -->
+
+</section>

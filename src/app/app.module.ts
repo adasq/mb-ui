@@ -5,6 +5,7 @@ import { MyApp } from './app.component';
 import { HttpModule } from '@angular/http';
 
 import { AboutPage } from '../pages/about/about';
+import { AddComponent } from '../pages/about/add/add.component';
 import { DetailsPage } from '../pages/about/details/details';
 import { SlideComponent } from '../pages/about/slide/slide.component';
 import { ContactPage } from '../pages/contact/contact';
@@ -60,7 +61,8 @@ const cloudSettings: CloudSettings = {
     ReportComponent,
     SlideComponent,
     TrooperEditComponent,
-    ListEditComponent
+    ListEditComponent,
+    AddComponent
   ],
   imports: [
     AngularFireModule.initializeApp({
@@ -78,7 +80,7 @@ const cloudSettings: CloudSettings = {
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    AboutPage,
+    AboutPage,    
     DetailsPage,
     ContactPage,
     ListTroopersPage,
