@@ -1,8 +1,9 @@
 import { Component, ViewChild, Input, Output, OnInit, EventEmitter } from '@angular/core';
-import { Slides, ActionSheetController } from 'ionic-angular';
+import { Slides, ActionSheetController, ModalController, ViewController } from 'ionic-angular';
+import { AddWordPage } from './word/add-word';
 import { Entry } from '../entry.interace';
-let itemId = -1;
-let dataId = -1;
+import { AngularFireDatabase } from 'angularfire2/database';
+
 
 interface QueryComponent {
     isOr?: boolean,
@@ -21,33 +22,62 @@ export class AddComponent implements OnInit {
     public query: QueryComponent[] = [];
 
     constructor(
-        private actionSheetController: ActionSheetController
+        private modalCtrl: ModalController,
+        private viewController: ViewController,
+        private actionSheetController: ActionSheetController,
+        private af: AngularFireDatabase
     ) { }
 
     ngOnInit() {
-        
+        this.word();
     }
 
     private and() {
-        if(this.isLastOperator()) return;
+        if (this.isLastOperator()) return;
         this.query.push({
             isAnd: true
         });
     }
 
     private or() {
-        if(this.isLastOperator()) return;
+        if (this.isLastOperator()) return;
         this.query.push({
             isOr: true
         });
     }
 
     private word() {
-        if(this.isLastAWord()) return;
-        this.query.push({
-            isWord: true,
-            word: 'siemanko :D'
+        if (this.isLastAWord()) return;
+        const word = '';
+        const showOptionsModal = this.modalCtrl.create(AddWordPage, { word });
+        showOptionsModal.onDidDismiss((result) => {
+            if (!result) return;
+            this.query.push({
+                isWord: true,
+                word: result
+            });
         });
+        showOptionsModal.present();
+    }
+
+    private buildQuery(): string {
+        return this.query.map(qc => {
+            if (qc.isAnd) {
+                return 'AND';
+            }
+            if (qc.isOr) {
+                return 'OR';
+            }
+            if (qc.isWord) {
+                return `"${qc.word}"`;
+            }
+        }).join(' ');
+    }
+
+    public saveQuery() {
+        const query = this.buildQuery();
+        this.af.object(`/subscriptions/${query}`)
+            .set({ aaa: 'aaa' });
     }
 
     public add() {
@@ -63,7 +93,7 @@ export class AddComponent implements OnInit {
     }
 
     private isLastOperator() {
-        if(this.query.length > 0) {
+        if (this.query.length > 0) {
             const lastQueryComponent: QueryComponent = this.query[this.query.length - 1];
             return lastQueryComponent.isAnd || lastQueryComponent.isOr;
         }
@@ -71,14 +101,13 @@ export class AddComponent implements OnInit {
     }
 
     private isLastAWord() {
-        if(this.query.length > 0) {
+        if (this.query.length > 0) {
             return !!this.query[this.query.length - 1].word
         }
         return false;
     }
 
     showOptions() {
-
         const add = { text: 'AND', handler: () => this.and() };
         const word = { text: 'Word', handler: () => this.word() };
         const or = { text: 'OR', handler: () => this.or() };
@@ -86,10 +115,10 @@ export class AddComponent implements OnInit {
 
         let buttons = [];
 
-        if(this.isLastAWord()) {
+        if (this.isLastAWord()) {
             buttons = [or, add];
         } else if (this.isLastOperator()) {
-             buttons = [word];
+            buttons = [word];
         }
 
         buttons.push(cancel)
@@ -98,5 +127,5 @@ export class AddComponent implements OnInit {
             title: 'What to add?', buttons
         }).present();
     }
-    
+
 }

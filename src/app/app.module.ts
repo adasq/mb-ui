@@ -7,6 +7,7 @@ import { HttpModule } from '@angular/http';
 import { AboutPage } from '../pages/about/about';
 import { AddComponent } from '../pages/about/add/add.component';
 import { DetailsPage } from '../pages/about/details/details';
+import { AddWordPage } from '../pages/about/add/word/add-word';
 import { SlideComponent } from '../pages/about/slide/slide.component';
 import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
@@ -49,6 +50,7 @@ const cloudSettings: CloudSettings = {
     MyApp,
     AboutPage,
     DetailsPage,
+    AddWordPage,
     ContactPage,
     HomePage,
     PlayerPage,
@@ -79,9 +81,11 @@ const cloudSettings: CloudSettings = {
   ],
   bootstrap: [IonicApp],
   entryComponents: [
+    AddComponent,
     MyApp,
     AboutPage,    
     DetailsPage,
+    AddWordPage,
     ContactPage,
     ListTroopersPage,
     ListTroopersEditPage,

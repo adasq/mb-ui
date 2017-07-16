@@ -5,6 +5,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { HomePage } from '../pages/home/home';
+import { AddComponent } from '../pages/about/add/add.component';
 import { AboutPage } from '../pages/about/about';
 import { ListNewPage } from '../pages/list/new/new';
 import { ListTroopersPage } from '../pages/list/troopers/troopers';
@@ -43,7 +44,6 @@ export class MyApp {
       statusBar.styleDefault();
       splashScreen.hide();
     });
-
 
     this.setOptions();
 
@@ -84,7 +84,7 @@ export class MyApp {
   }
 
   onTensionClick() {
-    this.nav.setRoot(AboutPage, {});
+    this.nav.setRoot(AddComponent, {});
     
   }
 

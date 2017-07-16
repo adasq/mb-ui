@@ -22,12 +22,6 @@ export class HomePage {
     private listsService: ListsService
    ) {
      this.lists = this.listsService.lists;  
-
-
-    //  const items = this.af.list('/results/ziemniaki4');
-    //  items.subscribe((result) => {
-    //    console.log('ziemniaki4',result);
-    //  });
   }
 
   public onListClick(list: List) {
