@@ -5,6 +5,19 @@ import { Entry } from '../entry.interace';
 let itemId = -1;
 let dataId = -1;
 
+const colors = ['#23d5ff', 'orange'];
+const colorsMap = {};
+
+function manageColor(day: number): string {
+    if (colorsMap[day]) {
+        
+    } else {
+        const color = colors.pop();
+        colorsMap[day] = color || '#ccc';
+    }
+    return colorsMap[day];
+}
+
 @Component({
     selector: 'slide-component',
     templateUrl: 'slide.component.html'
@@ -35,7 +48,7 @@ export class SlideComponent implements OnInit {
     }
 
     renderFirstItem() {
-        setTimeout(() => this.render(this.htmlData[0], 0));
+        setTimeout(() => this.render(0, 0));
     }
 
     generateHtmlData(): string[] {
@@ -59,15 +72,17 @@ export class SlideComponent implements OnInit {
         });
     }
 
-    render(html, id) {
+    render(id2, id) {
         Array.from(document.querySelectorAll(`.tension-id-${id}`)).forEach(elem => {
-            elem['innerHTML'] = html;
+            elem['innerHTML'] = this.htmlData[id2];
+            const day = new Date(this.itemlist[id2].date).getDate();
+            elem['style']['background'] = manageColor(day);
         });
     }
 
     ionSlideDidChange() {
-        const prevValue = this.htmlData[this.getPrevDataId()];
-        this.render(prevValue, getPrevItemId());
+        const id = this.getPrevDataId();
+        this.render(id, getPrevItemId());
     }
 
     ionSlideNextStart(event) {
@@ -75,9 +90,8 @@ export class SlideComponent implements OnInit {
         dataId = this.getNextDataId();
         this.currentData = this.itemlist[dataId];
         const nextId = this.getNextDataId();
-        const nextVal = this.htmlData[nextId];
 
-        this.render(nextVal, getNextItemId());
+        this.render(nextId, getNextItemId());
     }
 
     ionSlidePrevStart() {
