@@ -24,9 +24,9 @@ import { ListNewPage } from '../pages/list/new/new';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
-import { ReportComponent } from './report/report.component'; 
-import { ListsService } from './lists/lists.service'; 
-import { TrooperService } from './trooper/trooper.service'; 
+import { ReportComponent } from './report/report.component';
+import { ListsService } from './lists/lists.service';
+import { TrooperService } from './trooper/trooper.service';
 
 import { TrooperEditComponent } from './trooper/edit/edit.component';
 import { ListEditComponent } from './lists/edit/edit.component';
@@ -44,6 +44,8 @@ const cloudSettings: CloudSettings = {
     'app_id': 'f0adb118'
   }
 };
+import { IonicStorageModule } from '@ionic/storage';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 
 @NgModule({
   declarations: [
@@ -67,11 +69,12 @@ const cloudSettings: CloudSettings = {
     AddComponent
   ],
   imports: [
+    IonicStorageModule.forRoot(),
     AngularFireModule.initializeApp({
       apiKey: 'AIzaSyBTPqYLRhEnnKD5Wkw1OdA8sHP386L7xD8',
       databaseURL: 'https://test-8c34c.firebaseio.com/',
       projectId: 'test-8c34c',
-  }, 'my-app'),
+    }, 'my-app'),
     AngularFireDatabaseModule,
     HttpModule,
     BrowserModule,
@@ -83,7 +86,7 @@ const cloudSettings: CloudSettings = {
   entryComponents: [
     AddComponent,
     MyApp,
-    AboutPage,    
+    AboutPage,
     DetailsPage,
     AddWordPage,
     ContactPage,
@@ -97,12 +100,13 @@ const cloudSettings: CloudSettings = {
     PlayerPage
   ],
   providers: [
+    BarcodeScanner,
     TrooperService,
     ListsService,
     StatusBar,
     SplashScreen,
     Clipboard,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    { provide: ErrorHandler, useClass: IonicErrorHandler }
   ]
 })
-export class AppModule {}
+export class AppModule { }

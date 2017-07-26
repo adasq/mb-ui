@@ -36,6 +36,7 @@ export class ListSettingsPage {
       this.list.name = this.tempList.name;
       this.list.domain = this.tempList.domain;
       this.events.publish('lists:added');
+      this.listsService.sync();
       this.viewController.dismiss();
     }
   }
@@ -44,6 +45,7 @@ export class ListSettingsPage {
       const index = this.listsService.lists.indexOf(this.list);
       this.listsService.lists.splice(index, 1);
       this.events.publish('lists:added');
+      this.listsService.sync();
       this.viewController.dismiss(true);
   }
 

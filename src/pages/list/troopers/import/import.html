@@ -1,50 +1,70 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title>
-      Importing
-    </ion-title>
-  </ion-navbar>
+    <ion-navbar>
+        <ion-title>
+            Importing
+            <span *ngIf="MODE.QR === mode">using QR Code</span>
+            <span *ngIf="MODE.URL === mode">using URL</span>
+            <span *ngIf="MODE.CLIPBOARD === mode">using Clipboard</span>
+        </ion-title>
+        <ion-buttons start>
+            <button ion-button (click)="onDismissClick()">
+        <span ion-text color="primary" showWhen="ios">Cancel</span>
+        <ion-icon name="md-close"></ion-icon>
+      </button>
+        </ion-buttons>
+    </ion-navbar>
 </ion-header>
-
-<ion-content>
-
-<ion-list>
-    <ion-item>
-        <ion-input [disabled]="state === STATE.LOADING"  type="text" [(ngModel)]="url"></ion-input>
-    </ion-item>
-</ion-list>
-  
-<div>
-  <ion-grid>
-      <ion-row>
-    <ion-col col-6>
-        <button (click)="onImportClick()" [disabled]="state === STATE.LOADING" ion-button block>
-            <span *ngIf="state !== STATE.LOADING">Load troopers</span>
-            <span *ngIf="state === STATE.LOADING">Waiting...</span>
+<ion-content padding>
+    <div *ngIf="mode === MODE.DEFAULT">
+        <p>There are three ways to quickly import your trooper list into app:</p>
+        <button (click)="setMode(MODE.QR)" ion-button full icon-left>
+            <ion-icon name="qr-scanner"></ion-icon>
+            <span>QR Code</span>
         </button>
-  </ion-col>
-  <ion-col col-6>
-        <button (click)="onClipboardClick()" [disabled]="state === STATE.LOADING" ion-button block>
-            <span>From Clipboard</span>
+        <button (click)="onClipboardClick()" ion-button full icon-left>
+            <ion-icon name="clipboard"></ion-icon>
+            <span>Clipboard</span>
         </button>
-  </ion-col>
-  </ion-row>
-</ion-grid>
-</div>
+        <button (click)="onImportClick()" [disabled]="true" ion-button full icon-left>
+            <ion-icon name="browsers"></ion-icon>
+            <span>URL</span>
+        </button>        
+    </div>
+    <!--QR Code-->
+    <section *ngIf="mode === MODE.QR">
+        <ol>
+            <li>Go to <strong>{{url}}</strong></li>
+            <li>Upload your existing Minibotters list or create new one if you are new to Minibotters</li>
+            <li><strong>QR Code</strong> will be automatically generated.</li>
+        </ol>
+        <button (click)="onQRClick()" ion-button full>
+            <span>Scan QR code</span>
+        </button>
+    </section>
+    <section *ngIf="mode === MODE.URL">
+        <ion-list>
+            <ion-item>
+                <ion-input type="text" [(ngModel)]="url"></ion-input>
+            </ion-item>
+        </ion-list>
+    </section>
+    <!--QR Code-->
+    <section *ngIf="mode === MODE.CLIPBOARD">
+        <p>Clipboard</p>
+    </section>
+    <div *ngIf="state === STATE.REVIEW">
+        <p>Here's your list. Review, and add them into list.</p>
+        <button *ngIf="state === STATE.REVIEW" (click)="onAddTroopersClick()" ion-button full>
+            Add those troopers
+        </button>
+        <ion-list>
+            <ion-item *ngFor="let trooper of troopers">
+                {{ trooper.name }} <span *ngIf="trooper.pass">(pass: {{ trooper.pass }})</span>
+            </ion-item>
+        </ion-list>
+    </div>
 
-<div *ngIf="state === STATE.REVIEW">
-<p>Here's your list. Review, and add them into list.</p>
-<ion-list>
-    <ion-item *ngFor="let trooper of troopers">
-        {{ trooper.name }}
-    </ion-item>
-</ion-list>
-</div>
+    <div padding>
 
-<div padding>
-  <button *ngIf="state === STATE.REVIEW" (click)="onAddTroopersClick()" ion-button block >
-      Add those troopers
-  </button>
-</div>
-
+    </div>
 </ion-content>

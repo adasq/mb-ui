@@ -4,7 +4,7 @@
   </ion-navbar>
 </ion-header>
 <ion-content>
-<ion-list [virtualScroll]="items">
+<ion-list [virtualScroll]="items" [approxItemHeight]="'66px'">
   <ion-item (click)="onUpgradeClicked(item)" [ngClass]="{
     'item-upgrade-available': item.state === STATE.UPGRADE_AVAILABLE,
     'item-playing': item.state === STATE.PLAYING,
@@ -46,7 +46,8 @@
 <ion-footer>
   <ion-toolbar>
     <button *ngIf="!isPlayingMode()" (click)="forcePlay()">play</button>
-    <p>{{ toPercentage() }}</p>
+    <p *ngIf="!statistics.done">{{ statistics.percentage }}</p>
+    <p *ngIf="statistics.done">Done! ({{totalTime}})</p>
     <ion-buttons end>
       <button 
       *ngIf="getAvailableForUpgradeCount() > 0"

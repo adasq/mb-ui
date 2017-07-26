@@ -1,34 +1,36 @@
 import { Injectable } from '@angular/core';
+import { Storage } from '@ionic/storage';
+
 import { Events } from 'ionic-angular';
 import { Trooper } from '../../app/trooper/trooper.interface';
-
 import { List } from './list.interface';
 
 @Injectable()
 export class ListsService {
+    public lists: List[] = [];
 
-    public lists: List[];
-
-  constructor(
-        private events: Events
-  ) {
-
-    const troopers: Trooper[] = [];
-
-    for(var i = 3; i < 20; i++) {
-      troopers.push({
-        name: `trooper${i+1}`
-      } as Trooper);
+    constructor(
+        private events: Events,
+        private storage: Storage
+    ) {
+        const troopers: Trooper[] = [];
+        this.storage.get('lists').then((lists) => {
+            if (lists) {
+                this.lists = lists;
+                this.events.publish('lists:added', lists[0]);
+            }
+        }, (err) => {
+            console.log('err', err);
+        });
     }
 
-      this.lists = [
-          { name: 'list1', domain: 'com', troopers },
-          { name: 'list2', domain: 'com', troopers: []}
-      ];
-  }
+    public create(list: List) {
+        this.lists.push(list);
+        this.events.publish('lists:added', list);
+        this.sync();
+    }
 
-  public create(list: List){
-    this.lists.push(list);
-    this.events.publish('lists:added', list);
-  }
+    public sync() {
+        this.storage.set('lists', this.lists);
+    }
 }

@@ -17,9 +17,9 @@
       <button menuClose ion-item (click)="onCreateNewListClick()">
         + New List
       </button>
-      <button menuClose ion-item (click)="onTensionClick()">
+      <!--<button menuClose ion-item (click)="onTensionClick()">
         Add TENSION
-      </button>
+      </button>-->
     </ion-list>
     
     <div *ngIf="version">
@@ -27,9 +27,7 @@
         ui: {{version.ui}}
       </p>
     </div>
- 
   </ion-content>
-
 </ion-menu>
 
 <!-- Disable swipe-to-go-back because it's poor UX to combine STGB with side menus -->

@@ -12,8 +12,16 @@
     },
     {
       "path": "/list",
-      "proxyUrl": "https://gist.githubusercontent.com/anonymous/606a8a29abcc04017995484ab39bc47b/raw/422aa84746e4d448b1df629e51fce5507eddddae/gistfile1.txt"
+      "proxyUrl": "https://gist.githubusercontent.com/adasq/2d220d242198085092e4c4f0c95f8470/raw/b2badcb33ee63d39e491183cbb7a7c51a2f5462a/xxx"
     },
+    {
+      "path": "/list2",
+      "proxyUrl": "https://gist.githubusercontent.com/adasq/f1710a71e2b8881fd1ce80824e4f2957/raw/cbd9f53db61c30d76a3bae2926cc13ebb82d9030/xxx2"
+    },
+    {
+      "path": "/list3",
+      "proxyUrl": "https://gist.githubusercontent.com/adasq/323a5cca7540ee23e307e225f5fff4d9/raw/97233fd3758f20996fe5f2fc3ce84a86a660f279/xxx3"
+    },    
     {
       "path": "/tension",
       "proxyUrl": "http://localhost:5000"

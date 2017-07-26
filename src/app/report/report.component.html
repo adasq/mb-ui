@@ -1,69 +1,71 @@
 <section *ngIf="report">
-    
-Select skill:
 
-<ion-card (click)="selectSkill(skill.id)" *ngFor="let skill of report.availableSkills">
-  
-    <ion-item>
-    <ion-avatar item-left>
-      <div [ngStyle]="{ 'background': skill.icon, 'width': '30px', 'height': '30px' }" ></div>
-    </ion-avatar>
-    <h2>{{skill.name}}</h2>
-    <p>{{skill.description}}</p>
-  </ion-item>
-  
-  <!--<ion-card-content>
-           <ion-avatar item-left>
-   <div [ngStyle]="{ 'background': skill.icon, 'width': '30px', 'height': '30px' }" ></div>
-    </ion-avatar>    
-    <ion-card-title>
-      {{skill.name}}
-      </ion-card-title>
-    <p>
-      {{skill.description}}
-    </p>
-  </ion-card-content>-->
-</ion-card>
+    <section *ngIf="report.availableSkills">
+        <p text-center>Select skill:</p>
+        <ion-card (click)="selectSkill(skill.id)" *ngFor="let skill of report.availableSkills">
+            <ion-item>
+                <ion-avatar item-left>
+                    <div  class="skill" [ngStyle]="{ 'background': skill.icon }"></div>
+                </ion-avatar>
+                <h2>{{skill.name}}</h2>
+                <p>{{skill.description}}</p>
+            </ion-item>
+        </ion-card>
+    </section>
 
 
+    <p text-center>Report:</p>
+    <ion-card>
+        <ion-card-content>
+            <ion-grid>
+                <ion-row>
+                    <ion-col col-6>Money: {{report.totalMoney}}</ion-col>
+                    <ion-col col-6>To up: {{report.requiredMoney}}</ion-col>
+                </ion-row>
+            </ion-grid>
+        </ion-card-content>
+    </ion-card>
 
+    <ion-card>
+        <ion-card-content>
+            <ion-grid>
+                <ion-row>
+                    <ion-col col-6>Battles</ion-col>
+                    <ion-col col-2>{{report.battles[0]}}</ion-col>
+                    <ion-col col-2>{{report.battles[1]}}</ion-col>
+                    <ion-col col-2>{{report.battles[2]}}</ion-col>
+                </ion-row>
 
-Report:
-<ion-card>
-  <ion-card-content>
-    <ion-grid>
-    <ion-row>
-        <ion-col col-6>Money: {{report.totalMoney}}</ion-col>
-        <ion-col col-6>To up: {{report.requiredMoney}}</ion-col>
-      </ion-row>  
-    </ion-grid>
-  </ion-card-content>
-</ion-card>
+                <ion-row>
+                    <ion-col col-6>Missions</ion-col>
+                    <ion-col col-2>{{report.missions[0]}}</ion-col>
+                    <ion-col col-2>{{report.missions[1]}}</ion-col>
+                    <ion-col col-2>{{report.missions[2]}}</ion-col>
+                </ion-row>
 
-<ion-card>
-  <ion-card-content>
-    <ion-grid>
-      <ion-row>
-        <ion-col col-6>Battles</ion-col>
-        <ion-col col-2>{{report.battles[0]}}</ion-col>
-        <ion-col col-2>{{report.battles[1]}}</ion-col>
-        <ion-col col-2>{{report.battles[2]}}</ion-col>
-      </ion-row>
+                <ion-row>
+                    <ion-col col-6>Raid</ion-col>
+                    <ion-col col-4></ion-col>
+                    <ion-col col-2>{{report.raid}}</ion-col>
+                </ion-row>
 
-      <ion-row>
-        <ion-col col-6>Missions</ion-col>
-        <ion-col col-2>{{report.missions[0]}}</ion-col>
-        <ion-col col-2>{{report.missions[1]}}</ion-col>
-        <ion-col col-2>{{report.missions[2]}}</ion-col>
-      </ion-row>  
+            </ion-grid>
+        </ion-card-content>
+    </ion-card>
 
-      <ion-row>
-        <ion-col col-6>Raid</ion-col>
-        <ion-col col-4></ion-col>
-        <ion-col col-2>{{report.raid}}</ion-col>
-      </ion-row>
+    <ion-card>
+        <ion-grid>
+            <ion-row>
+                <ion-col col-12>
+                    <p *ngIf="selectedSkill"><strong>{{selectedSkill.name}}</strong> {{selectedSkill.description}} </p>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col *ngFor="let skill of report.skills" class="elem-center" col-2>
+                    <div (click)="onSkillClicked(skill)" class="skill" [ngStyle]="{ 'background': skill.icon }"></div>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </ion-card>
 
-    </ion-grid>
-  </ion-card-content>
-</ion-card>
 </section>
