@@ -7,15 +7,9 @@
 </ion-header>
 
 <ion-content>
-
-<report-component 
-  (onSkillSelected)="onSkillSelected($event)"
-  [report]="item.report"
-></report-component>
-
-
+  <report-component (onSkillSelected)="onSkillSelected($event)" [report]="item.report"></report-component>
 </ion-content>
-<ion-footer>
+<!--<ion-footer>
   <ion-toolbar>
     <ion-buttons>
       <button ion-button icon-right color="royal">
@@ -23,11 +17,11 @@
         <p>Back to list</p>
       </button>
     </ion-buttons>
-        <ion-buttons end>
+    <ion-buttons end>
       <button ion-button icon-right color="royal">
          <p>Go to list</p>
         <ion-icon name="send"></ion-icon>
       </button>
     </ion-buttons>
   </ion-toolbar>
-</ion-footer>
+</ion-footer>-->

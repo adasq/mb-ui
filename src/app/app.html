@@ -6,22 +6,25 @@
   </ion-header>
 
   <ion-content>
-    <ion-list>
-        <button menuClose ion-item (click)="onHomeClick()">
+    <ion-list no-lines>
+      <button icon-left menuClose ion-item (click)="onHomeClick()">
+        <ion-icon name="ios-happy"></ion-icon>
         Go bots!
       </button>
+      <button icon-left menuClose ion-item (click)="onCreateNewListClick()">
+        <ion-icon name="add"></ion-icon>
+        New List
+      </button>
+      <ion-item-divider color="light">Lists:</ion-item-divider>
       <button icon-left menuClose ion-item *ngFor="let p of pages" (click)="openListPage(p)">
         <ion-icon name="list"></ion-icon>
         {{p.title}}
-      </button>
-      <button menuClose ion-item (click)="onCreateNewListClick()">
-        + New List
       </button>
       <!--<button menuClose ion-item (click)="onTensionClick()">
         Add TENSION
       </button>-->
     </ion-list>
-    
+
     <div *ngIf="version">
       <p class="version" center ion-text color="light">
         ui: {{version.ui}}

@@ -1,7 +1,6 @@
 import { Component, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { NavController, NavParams, Content } from 'ionic-angular';
 
-
 import { Report } from '../../app/report/report.interface';
 import { Trooper } from '../../app/trooper/trooper.interface';
 import { TrooperService } from '../../app/trooper/trooper.service';
@@ -19,11 +18,6 @@ export const STATE = {
     SKILL_SELECTING: 4,
     SKILL_SELECTED: 5,
     ERROR: 6
-};
-
-export const REQUEST_STATE = {
-    PLAY: 1,
-    SELECT_SKILL: 2
 };
 
 interface Item {
@@ -77,35 +71,49 @@ export class PlayerPage {
         return this.statistics.finished > 0;
     }
 
+    private format(timeStamp) {
+        const zeroPadding = (num) => (num < 10) ? '0' + num : num;
+        const date = new Date(timeStamp);
+        const now = new Date();
+        const todayMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        const yesterdayMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1);
+        const time = `${zeroPadding(date.getHours())}:${zeroPadding(date.getMinutes())}`;
+
+        if ((+todayMidnight) < timeStamp) {
+            return `today at ${time}`;
+        } else if (timeStamp < todayMidnight && timeStamp > yesterdayMidnight) {
+            return `yesterday at ${time}`;
+        } else {
+            return `${zeroPadding(date.getDate())}.${zeroPadding(date.getMonth() + 1)}, at ${time}`;
+        }
+    }
+
     private onItemStateUpdated(item, result) {
         const report = result.val();
+        // console.log(item.trooper.name, report);
         if (!report) return;
 
-        //item.lastUpdated = report.lastUpdated;
-        const date = new Date(report.lastUpdated);
-        var datewithouttimezone = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
-        item.lastUpdated = datewithouttimezone;
-
+        item.lastUpdated = this.format(report.lastUpdated);
         if (item.state === STATE.PLAYING) {
             this.statistics.finished = this.statistics.finished + 1;
         }
-        if(this.statistics.finished > 0 && this.statistics.finished === this.statistics.totalItems) {
+        if (this.statistics.finished > 0 && this.statistics.finished === this.statistics.totalItems) {
             this.setTotalExecutionTime();
             this.statistics.done = true;
         }
         this.statistics.percentage = Math.floor(this.statistics.finished / this.statistics.totalItems * 100) + '%'
-
 
         item.state = report.state;
         if (report.state === STATE.ERROR) {
             item.error = report.error;
         } else {
             if (report.state === STATE.SKILL_SELECTED) {
-                item.report = null;
+                item.report = this.createReport(report);
             } else {
                 item.report = this.createReport(report);
             }
         }
+        // this.changeDetectorRef.detectChanges();
     }
 
     public registerForChanges() {
@@ -121,7 +129,8 @@ export class PlayerPage {
         this.statistics.finished = 0;
         this.items.forEach((item) => {
             this.af.object(`/queue/${item.trooper.name}`).set({
-                aaa: 'REQUEST_STATE.PLAY'
+                a: 1,
+                pass: item.trooper.pass || null
             });
             item.state = STATE.PLAYING;
         });
@@ -153,10 +162,10 @@ export class PlayerPage {
             raid: report.fight && report.fight[2] && report.fight[2][0],
             skills: (report.skills.skills || []).map(skill => {
                 return {
-                        id: 0,
-                        name: skill.title,
-                        icon: skill.style.replace('/img', 'assets').substr(13),
-                        description: skill.desc
+                    id: 0,
+                    name: skill.title,
+                    icon: skill.style.replace('/img', 'assets').substr(13),
+                    description: skill.desc
                 };
             }),
             totalMoney: report.skills.money,
@@ -172,15 +181,15 @@ export class PlayerPage {
     }
 
     private formatTime(sec) {
-        const format = (num) => num < 10 ? '0'+num : num;
+        const format = (num) => num < 10 ? '0' + num : num;
         const mins = Math.floor(sec / 60);
         const secs = sec % 60;
         return `${format(mins)}:${format(secs)}`;
     }
 
     private setTotalExecutionTime() {
-            const secs = Math.ceil((Date.now() - this.startTime) / 1000);
-            this.totalTime = this.formatTime(secs);
+        const secs = Math.ceil((Date.now() - this.startTime) / 1000);
+        this.totalTime = this.formatTime(secs);
     }
 
     public onUpgradeClicked(item: Item) {

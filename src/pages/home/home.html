@@ -7,10 +7,8 @@
   </ion-navbar>
 </ion-header>
 <ion-content>
-
   <ion-list [virtualScroll]="lists">
     <ion-item (click)="onListClick(list)" *virtualItem="let list">
-
       <h2>{{list.name}}</h2>
       <p *ngIf="list.troopers.length > 0">
         {{list.troopers.length}} troopers
@@ -18,10 +16,7 @@
       <p *ngIf="list.troopers.length === 0">
         No troopers specified
       </p>
-
       <button *ngIf="list.troopers.length > 0" ion-button clear item-right>play</button>
     </ion-item>
   </ion-list>
-
-
 </ion-content>

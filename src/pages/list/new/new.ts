@@ -12,7 +12,7 @@ import { ListTroopersPage } from '../troopers/troopers'
 export class ListNewPage {
 
     public list: List = {
-        name: 'My new list',
+        name: '',
         domain: 'com',
         troopers: []
     };
@@ -21,7 +21,7 @@ export class ListNewPage {
     public navCtrl: NavController,
     private listsService: ListsService,
     private toastCtrl: ToastController,
-    public params: NavParams,
+    public params: NavParams
   ) {}
   
   public onStateChanged(state) {

@@ -1,60 +1,61 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title>Playing {{list.name}}</ion-title>
-  </ion-navbar>
+    <ion-navbar>
+        <ion-title>Playing {{list.name}}</ion-title>
+    </ion-navbar>
 </ion-header>
 <ion-content>
-<ion-list [virtualScroll]="items" [approxItemHeight]="'66px'">
-  <ion-item (click)="onUpgradeClicked(item)" [ngClass]="{
+    <ion-list [virtualScroll]="items" [approxItemHeight]="'66px'">
+        <ion-item (click)="onUpgradeClicked(item)" [ngClass]="{
     'item-upgrade-available': item.state === STATE.UPGRADE_AVAILABLE,
+    'item-upgrade-not-available': item.state === STATE.UPGRADE_NOT_AVAILABLE,
     'item-playing': item.state === STATE.PLAYING,
     'item-skill-selecting': item.state === STATE.SKILL_SELECTING,
     'item-skill-selected': item.state === STATE.SKILL_SELECTED,
     'item-error': item.state === STATE.ERROR
-  }"
-  *virtualItem="let item">
-
-    <!--<ion-avatar item-right>
-      <ion-icon name="person"></ion-icon>
-    </ion-avatar>-->
-    <h2>{{item.trooper.name}}</h2> 
-    <h3>{{ item.lastUpdated | date:'yMMMdjms' }}</h3>
-    <p class="state-upgrade-available">
-      Upgrades available
-    </p>
-    <p class="state-playing">
-      Waiting for result...
-    </p>
-    <p class="state-skill-selecting">
-      Selecting skill...
-    </p>    
-    <p class="state-skill-selected">
-      Skill selected!
-    </p>
-    <p class="state-error">
-      {{item.error}}
-    </p>
-    <p *ngIf="item.state === STATE.DEFAULT">
-    </p>
-    <button class="upgrade-button" ion-button clear item-right>
-      upgrade
-    </button>
-  </ion-item>
-</ion-list>
-
+  }" *virtualItem="let item">
+            <h2>{{item.trooper.name}}</h2>
+            <p>
+            <span *ngIf="item.lastUpdated && item.state !== STATE.PLAYING">{{ item.lastUpdated }}, </span>
+            <span class="state-upgrade-available">
+                upgrades available
+            </span>
+                <span class="state-playing">
+                Waiting for result...
+            </span>
+                <span class="state-skill-selecting">
+                selecting skill...
+            </span>
+                <span class="state-skill-selected">
+                skill selected!
+            </span>
+                <span class="state-error">
+                {{item.error}}
+            </span>
+            <span class="state-upgrade-not-available">done</span>
+                <!--<span *ngIf="item.state === STATE.DEFAULT">DEFAULT</span>-->
+            </p>
+            <button class="upgrade-button" ion-button clear item-right>upgrade</button>
+        </ion-item>
+    </ion-list>
 </ion-content>
 <ion-footer>
-  <ion-toolbar>
-    <button *ngIf="!isPlayingMode()" (click)="forcePlay()">play</button>
-    <p *ngIf="!statistics.done">{{ statistics.percentage }}</p>
-    <p *ngIf="statistics.done">Done! ({{totalTime}})</p>
-    <ion-buttons end>
-      <button 
-      *ngIf="getAvailableForUpgradeCount() > 0"
-      (click)="onUpgradesAvailableClick()" ion-button icon-right>
-        {{ getAvailableForUpgradeCount() }} upgrades available!
-        <ion-icon name="send"></ion-icon>
+    <ion-toolbar>
+        <ion-buttons>
+            <button *ngIf="!isPlayingMode()" (click)="forcePlay()" ion-button icon-left>
+        <ion-icon name="ios-play"></ion-icon>
+        play!
       </button>
-    </ion-buttons>
-  </ion-toolbar>
+            <div *ngIf="isPlayingMode()">
+                <p *ngIf="!statistics.done">{{ statistics.percentage }}</p>
+                <p *ngIf="statistics.done">Done! ({{totalTime}})</p>
+            </div>
+        </ion-buttons>
+
+        <ion-buttons end>
+            <button *ngIf="getAvailableForUpgradeCount() > 0" (click)="onUpgradesAvailableClick()" ion-button icon-right>
+        {{ getAvailableForUpgradeCount() }} upgrades available!
+        <ion-icon name="ios-trending-up"></ion-icon>
+      </button>
+        </ion-buttons>
+    </ion-toolbar>
 </ion-footer>

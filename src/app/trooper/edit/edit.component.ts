@@ -2,6 +2,7 @@ import { Component, Input, EventEmitter, Output, ChangeDetectorRef } from '@angu
 import { ToastController } from 'ionic-angular';
 import { Trooper } from '../../trooper/trooper.interface';
 import { Domain } from '../../lists/list.interface';
+import { ListsService } from '../../lists/lists.service';
 import { TrooperService } from '../../trooper/trooper.service';
 
 export const STATE = {
@@ -27,7 +28,8 @@ export class TrooperEditComponent {
     constructor(
       private toastCtrl: ToastController,
       private changeDetectorRef: ChangeDetectorRef,
-      private trooperService: TrooperService
+      private trooperService: TrooperService,
+      private listsService: ListsService
     ) { }
 
 
@@ -49,17 +51,19 @@ export class TrooperEditComponent {
   }
 
   public onSaveClick() {
-      this.checkTrooper()
-        .subscribe(result => {
-          if(result.code === 201) {
-            this.setState(STATE.SUCCESS);
-          } else {
-            this.setState(STATE.ERROR);
-            this.showError(result.message);
-          }
-        }, () => {
-          this.setState(STATE.ERROR);
-          this.showError('connection issue...');
-      });
+      this.setState(STATE.SUCCESS);
+      this.listsService.sync();
+      // this.checkTrooper()
+      //   .subscribe(result => {
+      //     if(result.code === 201) {
+      //       this.setState(STATE.SUCCESS);
+      //     } else {
+      //       this.setState(STATE.ERROR);
+      //       this.showError(result.message);
+      //     }
+      //   }, () => {
+      //     this.setState(STATE.ERROR);
+      //     this.showError('connection issue...');
+      // });
   }
 }

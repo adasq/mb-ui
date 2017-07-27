@@ -71,9 +71,9 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner';
   imports: [
     IonicStorageModule.forRoot(),
     AngularFireModule.initializeApp({
-      apiKey: 'AIzaSyBTPqYLRhEnnKD5Wkw1OdA8sHP386L7xD8',
-      databaseURL: 'https://test-8c34c.firebaseio.com/',
-      projectId: 'test-8c34c',
+      apiKey: 'AIzaSyBMdOMVo07PvnJ_kxxSDak7Fllyo07nWDk',
+      databaseURL: 'https://mini-3963a.firebaseio.com/',
+      projectId: 'mini-3963a',
     }, 'my-app'),
     AngularFireDatabaseModule,
     HttpModule,

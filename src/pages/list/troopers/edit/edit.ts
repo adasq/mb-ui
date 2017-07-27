@@ -3,6 +3,7 @@ import { NavController, NavParams, ViewController } from 'ionic-angular';
  
 import { Trooper } from '../../../../app/trooper/trooper.interface';
 import { Domain } from '../../../../app/lists/list.interface';
+import { ListsService } from '../../../../app/lists/lists.service';
 import { STATE } from '../../../../app/trooper/edit/edit.component';
 
 @Component({
@@ -17,7 +18,8 @@ export class ListTroopersEditPage {
   constructor(
     public navCtrl: NavController,
     public viewCtrl: ViewController,
-    public params: NavParams
+    public params: NavParams,
+    private listsService: ListsService
   ) {
       this.trooper = this.params.get('trooper');
       this.domain = this.params.get('domain');
@@ -33,6 +35,7 @@ export class ListTroopersEditPage {
   private closeEditPage() {
     this.trooper.name = this.tempTrooper.name;
     this.trooper.pass = this.tempTrooper.pass;
+    this.listsService.sync();
     this.viewCtrl.dismiss();
   }
 }

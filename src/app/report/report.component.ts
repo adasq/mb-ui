@@ -11,7 +11,6 @@ export class ReportComponent implements OnInit {
     @Output() onSkillSelected = new EventEmitter<number>();
 
     public selectedSkill = null;
-    public skills = null;
 
     constructor(
         public navCtrl: NavController,
@@ -19,8 +18,6 @@ export class ReportComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        console.log(this.report);
-        this.skills = this.report.skills;
     }
 
     public selectSkill(skillId: number) {

@@ -53,7 +53,7 @@ export class ContactPage {
 
   public onSkillSelected(skillId: number) {
     this.item.state = STATE.SKILL_SELECTING;
-    this.af.object(`/queue2/${this.item.trooper.name}`).set({ skillId });
+    this.af.object(`/queue2/${this.item.trooper.name}`).set({ skillId, pass: this.item.trooper.pass || null });
     if (this.items) {
       this.selectNextReport();
     } else {
