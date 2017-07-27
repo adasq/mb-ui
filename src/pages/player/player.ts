@@ -109,6 +109,7 @@ export class PlayerPage {
         } else {
             if (report.state === STATE.SKILL_SELECTED) {
                 item.report = this.createReport(report);
+                item.report.availableSkills = null;
             } else {
                 item.report = this.createReport(report);
             }
