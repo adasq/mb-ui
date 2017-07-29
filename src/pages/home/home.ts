@@ -6,6 +6,7 @@ import { ListTroopersPage } from '../list/troopers/troopers';
 
 import { ListsService } from '../../app/lists/lists.service';
 import { List } from '../../app/lists/list.interface';
+import { ListNewPage } from '../list/new/new';
 
 @Component({
     selector: 'page-home',
@@ -19,10 +20,18 @@ export class HomePage {
         private events: Events,
         private listsService: ListsService
     ) {
-        this.lists = this.listsService.lists;
+        this.setLists();
         this.events.subscribe('lists:added', () => {
-            this.lists = this.listsService.lists;
+            this.setLists();
         });
+    }
+
+    private setLists() {
+        this.lists = this.listsService.lists;
+    }
+
+    public onCreateListClick() {
+        this.navCtrl.setRoot(ListNewPage, {});
     }
 
     public onListClick(list: List) {

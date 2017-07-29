@@ -9,7 +9,7 @@
         <ion-buttons start>
             <button ion-button (click)="onDismissClick()">
         <span ion-text color="primary" showWhen="ios">Cancel</span>
-        <ion-icon name="md-close"></ion-icon>
+        <ion-icon name="md-close" hideWhen="ios"></ion-icon>
       </button>
         </ion-buttons>
     </ion-navbar>
@@ -28,7 +28,7 @@
         <button (click)="onImportClick()" [disabled]="true" ion-button full icon-left>
             <ion-icon name="browsers"></ion-icon>
             <span>URL</span>
-        </button>        
+        </button>
     </div>
     <!--QR Code-->
     <section *ngIf="mode === MODE.QR">
@@ -37,9 +37,6 @@
             <li>Upload your existing Minibotters list or create new one if you are new to Minibotters</li>
             <li><strong>QR Code</strong> will be automatically generated.</li>
         </ol>
-        <button (click)="onQRClick()" ion-button full>
-            <span>Scan QR code</span>
-        </button>
     </section>
     <section *ngIf="mode === MODE.URL">
         <ion-list>
@@ -62,9 +59,20 @@
                 {{ trooper.name }} <span *ngIf="trooper.pass">(pass: {{ trooper.pass }})</span>
             </ion-item>
         </ion-list>
+        <button *ngIf="state === STATE.REVIEW" (click)="onAddTroopersClick()" ion-button full>
+            Add those troopers
+        </button>
     </div>
 
     <div padding>
 
     </div>
 </ion-content>
+<ion-footer>
+    <ion-toolbar>
+        <button *ngIf="mode === MODE.QR" (click)="onQRClick()" ion-button full>
+            <span>Scan QR code</span>
+        </button>
+    </ion-toolbar>
+
+</ion-footer>

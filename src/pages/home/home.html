@@ -1,22 +1,26 @@
 <ion-header>
-  <ion-navbar>
-    <button ion-button menuToggle>
+    <ion-navbar>
+        <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Go bots!</ion-title>
-  </ion-navbar>
+        <ion-title>Go bots!</ion-title>
+    </ion-navbar>
 </ion-header>
 <ion-content>
-  <ion-list [virtualScroll]="lists">
-    <ion-item (click)="onListClick(list)" *virtualItem="let list">
-      <h2>{{list.name}}</h2>
-      <p *ngIf="list.troopers.length > 0">
-        {{list.troopers.length}} troopers
-      </p>
-      <p *ngIf="list.troopers.length === 0">
-        No troopers specified
-      </p>
-      <button *ngIf="list.troopers.length > 0" ion-button clear item-right>play</button>
-    </ion-item>
-  </ion-list>
+    <section class="center" *ngIf="lists.length === 0">
+        <h6 ion-text>No list specified</h6>
+        <button (click)="onCreateListClick()" ion-button round outline>Create new list</button>
+    </section>
+    <ion-list [virtualScroll]="lists">
+        <ion-item (click)="onListClick(list)" *virtualItem="let list">
+            <h2>{{list.name}}</h2>
+            <p *ngIf="list.troopers.length > 0">
+                {{list.troopers.length}} troopers
+            </p>
+            <p *ngIf="list.troopers.length === 0">
+                No troopers specified
+            </p>
+            <button *ngIf="list.troopers.length > 0" ion-button clear item-right>play</button>
+        </ion-item>
+    </ion-list>
 </ion-content>

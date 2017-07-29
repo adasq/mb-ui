@@ -84,6 +84,7 @@ export class ListTroopersImportPage {
     public onQRClick() {
         this.setState(STATE.LOADING);
         this.setTroopers();
+        this.loadTroopers('-Kq9E4PL6fmparHNKTxp');
         this.readQr((err, id) => {
             if (err) {
                 this.setState(STATE.DEFAULT);
@@ -114,7 +115,10 @@ export class ListTroopersImportPage {
             } else {
                 cb(true);
             }
-        }, (err) => cb(err));
+        }, (err) => {
+            this.toastCtrl.create({ message: err, duration: 3000 }).present();
+            console.log(err);
+        });
     }
 
     private showError(message: string) {
