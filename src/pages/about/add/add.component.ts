@@ -1,7 +1,6 @@
-import { Component, ViewChild, Input, Output, OnInit, EventEmitter } from '@angular/core';
-import { Slides, ActionSheetController, ModalController, ViewController } from 'ionic-angular';
+import { Component, OnInit } from '@angular/core';
+import { ActionSheetController, ModalController } from 'ionic-angular';
 import { AddWordPage } from './word/add-word';
-import { Entry } from '../entry.interace';
 import { AngularFireDatabase } from 'angularfire2/database';
 
 
@@ -23,7 +22,6 @@ export class AddComponent implements OnInit {
 
     constructor(
         private modalCtrl: ModalController,
-        private viewController: ViewController,
         private actionSheetController: ActionSheetController,
         private af: AngularFireDatabase
     ) { }

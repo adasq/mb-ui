@@ -1,4 +1,4 @@
-import { NavController, NavParams, Slides, ActionSheetController, ViewController, ModalController } from 'ionic-angular';
+import { NavParams, ViewController } from 'ionic-angular';
 import { Component } from '@angular/core';
 
 @Component({

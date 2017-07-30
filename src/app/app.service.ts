@@ -1,11 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Storage } from '@ionic/storage';
-
-import { Events } from 'ionic-angular';
-import { Trooper } from '../../app/trooper/trooper.interface';
-import { List } from './list.interface';
 import { Http } from '@angular/http';
-
 import { AngularFireDatabase } from 'angularfire2/database';
 
 

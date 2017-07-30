@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 
 import { Events } from 'ionic-angular';
-import { Trooper } from '../../app/trooper/trooper.interface';
 import { List } from './list.interface';
 
 @Injectable()
@@ -13,7 +12,6 @@ export class ListsService {
         private events: Events,
         private storage: Storage
     ) {
-        const troopers: Trooper[] = [];
         this.storage.get('lists').then((lists) => {
             if (lists) {
                 this.lists = lists;

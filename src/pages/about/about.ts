@@ -1,6 +1,6 @@
-import { Component, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component } from '@angular/core';
 import { Http } from '@angular/http';
-import { NavController, NavParams, Slides, ActionSheetController, ViewController, ModalController } from 'ionic-angular';
+import { NavController, NavParams, ActionSheetController, ModalController } from 'ionic-angular';
 import { Deploy } from '@ionic/cloud-angular';
 import { EnvConfigurationProvider } from "gl-ionic2-env-configuration";
 import { DetailsPage } from './details/details';
@@ -16,7 +16,6 @@ export class AboutPage {
     public pureData: Entry[] = null;
 
     constructor(
-        private cd: ChangeDetectorRef,
         private deploy: Deploy,
         public navCtrl: NavController,
         private http: Http,
