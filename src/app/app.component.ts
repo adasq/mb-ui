@@ -51,6 +51,8 @@ export class MyApp {
       this.setOptions();
     });
 
+    this.ping();
+
     // this.loadTensionCategories();
   }
 
@@ -66,6 +68,20 @@ export class MyApp {
             params: { id }
           });
         });
+      });
+  }
+
+  ping() {
+    this.af.object(`/ping`, { preserveSnapshot: true })
+      .subscribe(result => {
+        const data = result.val();
+
+        data.forEach(url => {
+          this.http.get(url)
+            .subscribe((result) => {
+              console.log(result);
+            });
+        })
       });
   }
 

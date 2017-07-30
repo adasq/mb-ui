@@ -165,7 +165,7 @@ export class PlayerPage {
                 return {
                     id: 0,
                     name: skill.title,
-                    icon: skill.style.replace('/img', 'assets').substr(13),
+                    icon: skill.style.replace('/assets', 'assets').substr(13),
                     description: skill.desc
                 };
             }),
