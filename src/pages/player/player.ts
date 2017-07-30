@@ -1,6 +1,6 @@
 import { Component, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { NavController, NavParams, Content } from 'ionic-angular';
-
+import { AppService } from '../../app/app.service';
 import { Report } from '../../app/report/report.interface';
 import { Trooper } from '../../app/trooper/trooper.interface';
 import { TrooperService } from '../../app/trooper/trooper.service';
@@ -47,7 +47,8 @@ export class PlayerPage {
         private changeDetectorRef: ChangeDetectorRef,
         private trooperService: TrooperService,
         private params: NavParams,
-        public af: AngularFireDatabase
+        public af: AngularFireDatabase,
+        private appService: AppService
     ) {
         this.list = this.params.get('list');
         this.items = this.list.troopers.map(trooper => {
@@ -125,6 +126,7 @@ export class PlayerPage {
     }
 
     public forcePlay() {
+        this.appService.ping();
         this.startTime = Date.now();
         this.statistics.totalItems = this.items.length;
         this.statistics.finished = 0;

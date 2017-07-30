@@ -1,9 +1,9 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { Platform, Nav, Events } from 'ionic-angular';
 import { Http } from '@angular/http';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-
+import { AppService } from './app.service';
 import { HomePage } from '../pages/home/home';
 import { AddComponent } from '../pages/about/add/add.component';
 import { AboutPage } from '../pages/about/about';
@@ -17,7 +17,7 @@ import { AngularFireDatabase } from 'angularfire2/database';
 @Component({
   templateUrl: 'app.html'
 })
-export class MyApp {
+export class MyApp implements OnInit {
   @ViewChild(Nav) nav: Nav;
 
   rootPage: any = HomePage || AboutPage || ListTroopersPage;
@@ -32,7 +32,8 @@ export class MyApp {
     private listsService: ListsService,
     private events: Events,
     private config: EnvConfigurationProvider<any>,
-    public af: AngularFireDatabase
+    public af: AngularFireDatabase,
+    public appService: AppService
   ) {
     // const { API_URL } = this.config.getConfig();
     // this.http.get(API_URL + '/version')
@@ -41,6 +42,7 @@ export class MyApp {
     //     this.version = version;
     //   });
     platform.ready().then(() => {
+      this.appService.ping();
       statusBar.styleDefault();
       splashScreen.hide();
     });
@@ -50,11 +52,10 @@ export class MyApp {
     this.events.subscribe('lists:added', () => {
       this.setOptions();
     });
-
-    this.ping();
-
     // this.loadTensionCategories();
   }
+
+  ngOnInit() { }
 
   loadTensionCategories() {
     this.af.object(`/subscriptions`, { preserveSnapshot: true })
@@ -68,20 +69,6 @@ export class MyApp {
             params: { id }
           });
         });
-      });
-  }
-
-  ping() {
-    this.af.object(`/ping`, { preserveSnapshot: true })
-      .subscribe(result => {
-        const data = result.val();
-
-        data.forEach(url => {
-          this.http.get(url)
-            .subscribe((result) => {
-              console.log(result);
-            });
-        })
       });
   }
 
