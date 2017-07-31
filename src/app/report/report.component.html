@@ -2,7 +2,7 @@
 
     <section *ngIf="report.availableSkills">
         <p text-center>Select skill:</p>
-        <ion-card (click)="selectSkill(skill.id)" *ngFor="let skill of report.availableSkills">
+        <ion-card tappable (click)="selectSkill(skill.id)" *ngFor="let skill of report.availableSkills">
             <ion-item>
                 <ion-avatar item-left>
                     <div  class="skill" [ngStyle]="{ 'background': skill.icon }"></div>

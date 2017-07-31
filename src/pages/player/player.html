@@ -1,11 +1,11 @@
 <ion-header>
     <ion-navbar>
-        <ion-title>Playing {{list.name}}</ion-title>
+        <ion-title>Playing "{{list.name}}"</ion-title>
     </ion-navbar>
 </ion-header>
 <ion-content>
     <ion-list [virtualScroll]="items" [approxItemHeight]="'66px'">
-        <ion-item (click)="onUpgradeClicked(item)" [ngClass]="{
+        <ion-item tappable (click)="onUpgradeClicked(item)" [ngClass]="{
     'item-upgrade-available': item.state === STATE.UPGRADE_AVAILABLE,
     'item-upgrade-not-available': item.state === STATE.UPGRADE_NOT_AVAILABLE,
     'item-playing': item.state === STATE.PLAYING,
@@ -15,8 +15,8 @@
   }" *virtualItem="let item">
             <h2>{{item.trooper.name}}</h2>
             <p>
-            <span *ngIf="item.lastUpdated && item.state !== STATE.PLAYING">{{ item.lastUpdated }}, </span>
-            <span class="state-upgrade-available">
+                <span *ngIf="item.lastUpdated && item.state !== STATE.PLAYING">{{ item.lastUpdated }}, </span>
+                <span class="state-upgrade-available">
                 upgrades available
             </span>
                 <span class="state-playing">
@@ -31,24 +31,22 @@
                 <span class="state-error">
                 {{item.error}}
             </span>
-            <span class="state-upgrade-not-available">done</span>
+                <span class="state-upgrade-not-available">done</span>
                 <!--<span *ngIf="item.state === STATE.DEFAULT">DEFAULT</span>-->
             </p>
-            <button class="upgrade-button" ion-button clear item-right>upgrade</button>
+            <!--<button class="upgrade-button" ion-button clear item-right>upgrade</button>-->
         </ion-item>
     </ion-list>
 </ion-content>
 <ion-footer>
     <ion-toolbar>
         <ion-buttons>
-            <button *ngIf="!isPlayingMode()" (click)="forcePlay()" ion-button icon-left>
+            <button *ngIf="uiState === UI_STATE.DEFAULT" (click)="forcePlay()" ion-button icon-left>
         <ion-icon name="ios-play"></ion-icon>
         play!
       </button>
-            <div *ngIf="isPlayingMode()">
-                <p *ngIf="!statistics.done">{{ statistics.percentage }}</p>
-                <p *ngIf="statistics.done">Done! ({{totalTime}})</p>
-            </div>
+            <p *ngIf="uiState === UI_STATE.PLAYING">{{ statistics.percentage }}</p>
+            <p *ngIf="uiState === UI_STATE.DONE">Done! ({{totalTime}})</p>
         </ion-buttons>
 
         <ion-buttons end>

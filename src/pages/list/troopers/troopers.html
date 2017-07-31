@@ -18,7 +18,7 @@
     </section>
 
     <ion-list [virtualScroll]="items">
-        <ion-item (click)="onTrooperClick(item)" *virtualItem="let item">
+        <ion-item tappable (click)="onTrooperClick(item)" *virtualItem="let item">
             <h2>{{item.trooper.name}}</h2>
             <p *ngIf="item.state === STATE.DEFAULT">
                 {{item.trooper.pass ? 'pass: '+item.trooper.pass : 'no password set'}}

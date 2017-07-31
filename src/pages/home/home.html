@@ -12,7 +12,7 @@
         <button (click)="onCreateListClick()" ion-button round outline>Create new list</button>
     </section>
     <ion-list [virtualScroll]="lists">
-        <ion-item (click)="onListClick(list)" *virtualItem="let list">
+        <ion-item tappable (click)="onListClick(list)" *virtualItem="let list">
             <h2>{{list.name}}</h2>
             <p *ngIf="list.troopers.length > 0">
                 {{list.troopers.length}} troopers

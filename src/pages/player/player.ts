@@ -20,6 +20,12 @@ export const STATE = {
     ERROR: 6
 };
 
+export const UI_STATE = {
+    DEFAULT: 0,
+    PLAYING: 1,
+    DONE: 2
+};
+
 interface Item {
     state: number;
     error: string;
@@ -35,10 +41,12 @@ export class PlayerPage {
 
     public list: List = null;
     public STATE = STATE;
+    public UI_STATE = UI_STATE;
     public items: Item[] = null;
     @ViewChild(Content) content: Content;
     public statistics: any = {};
 
+    public uiState = UI_STATE.DEFAULT;
     private startTime: number;
     public totalTime: string;
 
@@ -60,6 +68,7 @@ export class PlayerPage {
             } as Item;
         });
 
+        this.setUiSate(UI_STATE.DEFAULT);
         this.registerForChanges();
 
         this.statistics.totalItems = this.items.length;
@@ -68,8 +77,8 @@ export class PlayerPage {
         this.statistics.finished = 0;
     }
 
-    public isPlayingMode() {
-        return this.statistics.finished > 0;
+    public setUiSate(state) {
+        this.uiState = state;
     }
 
     private format(timeStamp) {
@@ -91,16 +100,15 @@ export class PlayerPage {
 
     private onItemStateUpdated(item, result) {
         const report = result.val();
-        // console.log(item.trooper.name, report);
         if (!report) return;
 
         item.lastUpdated = this.format(report.lastUpdated);
         if (item.state === STATE.PLAYING) {
             this.statistics.finished = this.statistics.finished + 1;
         }
-        if (this.statistics.finished > 0 && this.statistics.finished === this.statistics.totalItems) {
+        if (this.statistics.finished > 0 && this.statistics.finished === this.statistics.totalItems && this.uiState === UI_STATE.PLAYING) {
             this.setTotalExecutionTime();
-            this.statistics.done = true;
+            this.setUiSate(UI_STATE.DONE);
         }
         this.statistics.percentage = Math.floor(this.statistics.finished / this.statistics.totalItems * 100) + '%'
 
@@ -126,17 +134,27 @@ export class PlayerPage {
     }
 
     public forcePlay() {
+        this.setUiSate(UI_STATE.PLAYING);
         this.appService.ping();
         this.startTime = Date.now();
         this.statistics.totalItems = this.items.length;
         this.statistics.finished = 0;
+        // this.items.forEach((item) => {
+        //     this.af.object(`/queue/${item.trooper.name}`).set({
+        //         a: 1,
+        //         pass: item.trooper.pass || null
+        //     });
+        //     item.state = STATE.PLAYING;
+        // });
+        const obj = {};
         this.items.forEach((item) => {
-            this.af.object(`/queue/${item.trooper.name}`).set({
+            obj['/' + item.trooper.name] = {
                 a: 1,
                 pass: item.trooper.pass || null
-            });
+            }
             item.state = STATE.PLAYING;
         });
+        this.af.object(`/queue`).update(obj);
     }
 
     public getAvailableForUpgradeCount() {
