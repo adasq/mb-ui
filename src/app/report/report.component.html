@@ -1,11 +1,13 @@
 <section *ngIf="report">
 
     <section *ngIf="report.availableSkills">
-        <p text-center>Select skill:</p>
+        <p text-center>
+            <strong>Select skill:</strong>
+        </p>
         <ion-card tappable (click)="selectSkill(skill.id)" *ngFor="let skill of report.availableSkills">
             <ion-item>
                 <ion-avatar item-left>
-                    <div  class="skill" [ngStyle]="{ 'background': skill.icon }"></div>
+                    <div class="skill" [ngStyle]="{ 'background': skill.icon }"></div>
                 </ion-avatar>
                 <h2>{{skill.name}}</h2>
                 <p>{{skill.description}}</p>
@@ -13,19 +15,19 @@
         </ion-card>
     </section>
 
-    <p text-center>Report:</p>
+    <!--<p text-center>Report:</p>-->
     <ion-card>
         <ion-card-content>
             <ion-grid>
                 <ion-row>
-                    <ion-col col-6>Money: {{report.totalMoney}}</ion-col>
-                    <ion-col col-6>To up: {{report.requiredMoney}}</ion-col>
+                    <ion-col col-6>Money: <strong>{{report.totalMoney}}</strong></ion-col>
+                    <ion-col col-6>Require: <strong>{{report.requiredMoney}}</strong></ion-col>
                 </ion-row>
             </ion-grid>
         </ion-card-content>
     </ion-card>
 
-    <ion-card>
+    <!--<ion-card>
         <ion-card-content>
             <ion-grid>
                 <ion-row>
@@ -50,9 +52,9 @@
 
             </ion-grid>
         </ion-card-content>
-    </ion-card>
+    </ion-card>-->
 
-    <ion-card>
+    <ion-card *ngIf="report.skills && report.skills.length > 0">
         <ion-grid>
             <ion-row>
                 <ion-col col-12>
