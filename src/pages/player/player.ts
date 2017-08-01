@@ -128,6 +128,7 @@ export class PlayerPage {
 
     public registerForChanges() {
         this.items.forEach((item) => {
+            if(item.trooper.name.includes('.')) return;
             this.af.object(`/results/${item.trooper.name}`, { preserveSnapshot: true })
                 .subscribe(result => this.onItemStateUpdated(item, result));
         });
@@ -148,6 +149,7 @@ export class PlayerPage {
         // });
         const obj = {};
         this.items.forEach((item) => {
+            if(item.trooper.name.includes('.')) return;
             obj['/' + item.trooper.name] = {
                 a: 1,
                 pass: item.trooper.pass || null

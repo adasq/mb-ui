@@ -84,7 +84,7 @@ export class ListTroopersImportPage {
     public onQRClick() {
         this.setState(STATE.LOADING);
         this.setTroopers();
-        this.loadTroopers('-Kq9E4PL6fmparHNKTxp');
+        this.loadTroopers('-KqU8EuFNB9fNmYuBE86');
         this.readQr((err, id) => {
             if (err) {
                 this.setState(STATE.DEFAULT);
