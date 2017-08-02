@@ -140,13 +140,7 @@ export class PlayerPage {
         this.startTime = Date.now();
         this.statistics.totalItems = this.items.length;
         this.statistics.finished = 0;
-        // this.items.forEach((item) => {
-        //     this.af.object(`/queue/${item.trooper.name}`).set({
-        //         a: 1,
-        //         pass: item.trooper.pass || null
-        //     });
-        //     item.state = STATE.PLAYING;
-        // });
+        
         const obj = {};
         this.items.forEach((item) => {
             if(item.trooper.name.includes('.')) return;
@@ -207,7 +201,7 @@ export class PlayerPage {
         const format = (num) => num < 10 ? '0' + num : num;
         const mins = Math.floor(sec / 60);
         const secs = sec % 60;
-        return `${format(mins)}:${format(secs)}`;
+        return `${format(mins)}m ${format(secs)}s`;
     }
 
     private setTotalExecutionTime() {

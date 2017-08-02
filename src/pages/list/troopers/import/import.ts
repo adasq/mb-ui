@@ -26,7 +26,7 @@ const MODE = {
 })
 export class ListTroopersImportPage {
 
-    public url = 'http://localhost:8100/list';
+    public url = 'http://minibotters.blogspot.com';
     public state = STATE.DEFAULT;
     public STATE = STATE;
     public MODE = MODE;
@@ -83,8 +83,8 @@ export class ListTroopersImportPage {
 
     public onQRClick() {
         this.setState(STATE.LOADING);
-        this.setTroopers();
-        this.loadTroopers('-KqU8EuFNB9fNmYuBE86');
+        // this.setTroopers();
+        // this.loadTroopers('-KqU8EuFNB9fNmYuBE86');
         this.readQr((err, id) => {
             if (err) {
                 this.setState(STATE.DEFAULT);

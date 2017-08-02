@@ -1,8 +1,8 @@
 {
-  "name": "ionic-hello-world",
+  "name": "minibotters",
   "version": "0.0.0",
-  "author": "Ionic Framework",
-  "homepage": "http://ionicframework.com/",
+  "author": "adasq",
+  "homepage": "http://minibotters.blogspot.com/",
   "private": true,
   "scripts": {
     "clean": "ionic-app-scripts clean",
@@ -55,5 +55,5 @@
     "ionic-plugin-keyboard"
   ],
   "cordovaPlatforms": [],
-  "description": "minibotters: An Ionic project"
+  "description": "Minibotters: Minitroopers Bot"
 }

@@ -45,7 +45,9 @@
         <ion-icon name="ios-play"></ion-icon>
         play!
       </button>
-            <p *ngIf="uiState === UI_STATE.PLAYING">{{ statistics.percentage }}</p>
+            <p *ngIf="uiState === UI_STATE.PLAYING">
+                {{ statistics.finished + '/' + statistics.totalItems }} ({{ statistics.percentage }})
+            </p>
             <p *ngIf="uiState === UI_STATE.DONE">Done! ({{totalTime}})</p>
         </ion-buttons>
 
