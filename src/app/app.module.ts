@@ -40,6 +40,8 @@ import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
 import { GLIonic2EnvConfigurationModule } from 'gl-ionic2-env-configuration';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireModule } from 'angularfire2';
+import { AdMobFree } from '@ionic-native/admob-free';
+
 const cloudSettings: CloudSettings = {
   'core': {
     'app_id': 'f0adb118'
@@ -102,6 +104,7 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner';
   ],
   providers: [
     BarcodeScanner,
+    AdMobFree,
     TrooperService,
     AppService,
     ListsService,

@@ -13,6 +13,7 @@ import { ListTroopersPage } from '../pages/list/troopers/troopers';
 import { ListsService } from './lists/lists.service';
 import { EnvConfigurationProvider } from "gl-ionic2-env-configuration";
 import { AngularFireDatabase } from 'angularfire2/database';
+import { AdMobFree, AdMobFreeBannerConfig } from '@ionic-native/admob-free';
 
 @Component({
   templateUrl: 'app.html'
@@ -25,6 +26,7 @@ export class MyApp implements OnInit {
   pages: Array<{ title: string, component: any, params?: any }>;
 
   constructor(
+    private admobFree: AdMobFree,
     private http: Http,
     platform: Platform,
     statusBar: StatusBar,
@@ -43,6 +45,7 @@ export class MyApp implements OnInit {
     //   });
     platform.ready().then(() => {
       this.appService.ping();
+      this.manageAds();
       statusBar.styleDefault();
       splashScreen.hide();
     });
@@ -56,6 +59,21 @@ export class MyApp implements OnInit {
   }
 
   ngOnInit() { }
+
+  private manageAds() {
+    const bannerConfig: AdMobFreeBannerConfig = {
+      id: 'ca-app-pub-1207989483928519/6669317303',
+      isTesting: false,
+      autoShow: true
+    };
+    this.admobFree.banner.config(bannerConfig);
+
+    this.admobFree.banner.prepare()
+      .then(() => {
+        console.log('!!!');
+      })
+      .catch(e => console.log('!!! err', e));
+  }
 
   loadTensionCategories() {
     this.af.object(`/subscriptions`, { preserveSnapshot: true })
