@@ -31,13 +31,11 @@
         "@ionic/cloud-angular": "^0.12.0",
         "@ionic/storage": "^2.0.1",
         "angularfire2": "4.0.0-rc.1",
-        "com.verso.cordova.clipboard": "https://github.com/VersoSolutions/CordovaClipboard.git",
         "cordova-android": "^6.2.3",
         "cordova-ios": "~4.3.1",
         "cordova-plugin-admob-free": "~0.10.0",
         "cordova-plugin-console": "1.0.5",
         "cordova-plugin-device": "1.1.4",
-        "cordova-plugin-file-opener2": "~2.0.15",
         "cordova-plugin-splashscreen": "~4.0.1",
         "cordova-plugin-statusbar": "2.2.1",
         "cordova-plugin-whitelist": "1.3.1",
@@ -48,6 +46,7 @@
         "ionic-plugin-deploy": "~0.6.6",
         "ionic-plugin-keyboard": "~2.2.1",
         "ionicons": "3.0.0",
+        "phonegap-plugin-barcodescanner": "^6.0.8",
         "rxjs": "5.1.1",
         "sw-toolbox": "3.4.0",
         "zone.js": "^0.8.4"
@@ -59,15 +58,6 @@
         "ionic": "3.7.0",
         "typescript": "~2.2.1"
     },
-    "cordovaPlugins": [
-        "cordova-plugin-whitelist",
-        "cordova-plugin-console",
-        "cordova-plugin-statusbar",
-        "cordova-plugin-device",
-        "cordova-plugin-splashscreen",
-        "ionic-plugin-keyboard"
-    ],
-    "cordovaPlatforms": [],
     "description": "Minibotters: Minitroopers Bot",
     "cordova": {
         "platforms": [
@@ -75,16 +65,17 @@
             "ios"
         ],
         "plugins": {
-            "com.verso.cordova.clipboard": {},
             "cordova-plugin-admob-free": {},
             "cordova-plugin-console": {},
             "cordova-plugin-device": {},
-            "cordova-plugin-file-opener2": {},
             "cordova-plugin-splashscreen": {},
             "cordova-plugin-statusbar": {},
             "cordova-plugin-whitelist": {},
             "ionic-plugin-deploy": {},
-            "ionic-plugin-keyboard": {}
+            "ionic-plugin-keyboard": {},
+            "phonegap-plugin-barcodescanner": {
+                "CAMERA_USAGE_DESCRIPTION": " "
+            }
         }
     }
 }
